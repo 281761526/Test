@@ -20,11 +20,12 @@ RAW_SOURCES_URLS = [
     "https://iptv.yang-1989.eu.org/m3u/Gather.m3u",
     "https://cdn.qd.je/live.m3u",
 ]
-
+# ==================== TG群组配置区域 ====================
 TG_CHANNELS = [
     "kevinmejo", 
-    "iptv_channel_example", 
-    "iptv_channel_example", 
+    "Player_Ku9", 
+    "tvzby", 
+    "iptvofficalgroup",
 ]
 
 OUTPUT_FILE = "live.m3u"
