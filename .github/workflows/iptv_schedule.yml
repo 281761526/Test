@@ -1,6 +1,6 @@
 name: Daily IPTV Automated Sync
 
-o:
+on:
   schedule:
     # 国际标准时间 00:00 对应北京时间早上 08:00
     - cron: '0 0 * * *'
