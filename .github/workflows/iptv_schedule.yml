@@ -1,46 +1,45 @@
 name: Daily IPTV Automated Sync
 
 on:
-  schedule:
-    # 国际标准时间 00:00 对应北京时间早上 08:00
-    - cron: '0 0 * * *'
-  workflow_dispatch:
+  schedule:
+    # 国际标准时间 00:00 对应北京时间早上 08:00
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 
 jobs:
-  build_and_run:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+  build_and_run:
+    runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout Private Repo
-      uses: actions/checkout@v4
-      with:
-        persist-credentials: true
+    steps:
+    - name: Checkout Private Repo
+      uses: actions/checkout@v4
+      with:
+        persist-credentials: true
 
-    - name: Setup FFmpeg
-      uses: FedericoCarboni/setup-ffmpeg@v3
+    - name: Install System FFmpeg
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ffmpeg
 
-    - name: Set up Python Environment
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
-        # ⚠️ 这里已经删除了 cache: 'pip'，彻底解决找不到 requirements.txt 的报错
+    - name: Set up Python Environment
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
 
-    - name: Install Python Dependencies
-      run: |
-        pip install aiohttp requests beautifulsoup4
+    - name: Install Python Dependencies
+      run: |
+        pip install aiohttp requests beautifulsoup4
 
-    - name: Run IPTV Pipeline Script (抓取与排序)
-      env:
-        TG_API_ID: ${{ secrets.TG_API_ID }}
-        TG_API_HASH: ${{ secrets.TG_API_HASH }}
-      run: |
-        python update_iptv.py
+    - name: Run IPTV Pipeline Script
+      env:
+        TG_API_ID: ${{ secrets.TG_API_ID }}
+        TG_API_HASH: ${{ secrets.TG_API_HASH }}
+      run: |
+        python update_iptv.py
 
-    - name: Commit and Push to Private Repo
-      run: |
-        git config --global user.name "Actions-Bot"
-        git config --global user.email "actions@github.com"
-        git add live.m3u
-        git diff --quiet && git diff --staged --quiet || (git commit -m "☀️ Daily Auto Update: $(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')" && git push)
+    - name: Commit and Push to Private Repo
+      run: |
+        git config --global user.name "Actions-Bot"
+        git config --global user.email "actions@github.com"
+        git add live.m3u
+        git diff --quiet && git diff --staged --quiet || (git commit -m "☀️ Daily Auto Update: $(date +'%Y-%m-%d %H:%M:%S')" && git push)
