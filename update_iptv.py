@@ -224,7 +224,9 @@ async def check_single_stream(semaphore, session, item):
                     h = data["streams"][0].get("height", 0)
                     print(f"✅ 成功: {name} | {w}x{h} | {delay}ms")
                     return {"name": name, "url": url, "delay": delay, "res": f"{w}x{h}"}
-        except:
+        except Exception as e:
+            # 修改了这里，防止被静默吞噬错误
+            # print(f"⚠️ ffprobe探测失败 {name}: {e}") # 取消注释可查看具体探测失败原因
             pass
         return None
 
