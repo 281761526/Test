@@ -19,6 +19,14 @@ RAW_SOURCES_URLS = [
     "https://raw.githubusercontent.com/YueChan/Live/refs/heads/main/GNTV.m3u",
     "https://iptv.yang-1989.eu.org/m3u/Gather.m3u",
     "https://cdn.qd.je/live.m3u",
+    "https://epg.pw/test_channels_hong_kong.m3u",
+    "https://epg.pw/test_channels_macau.m3u",
+    "https://epg.pw/test_channels_taiwan.m3u",
+    "https://raw.githubusercontent.com/mytv-android/BRTV-Live-M3U8/main/iptv.m3u",
+    "https://iptv-org.github.io/iptv/countries/tw.m3u//cdn.qd.je/live.m3u",
+    "https://raw.githubusercontent.com/BigBigGrandG/IPTV-URL/release/Gather.m3u",
+    "https://raw.githubusercontent.com/Kimentanm/aptv/master/m3u/iptv.m3u",
+    "https://raw.githubusercontent.com/YanG-1989/m3u/main/Gather.m3u",
 ]
 
 # ==================== TG群组配置区域 ====================
