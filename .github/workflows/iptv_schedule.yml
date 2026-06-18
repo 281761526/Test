@@ -18,7 +18,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.10' # 建议使用稳定版本
+        python-version: '3.10'
 
     - name: Install System Dependencies (FFmpeg)
       run: |
@@ -31,9 +31,8 @@ jobs:
         pip install aiohttp requests beautifulsoup4
 
     - name: Run Scraper Script
-      run: python main.py # 请替换为您实际的 Python 文件名
+      run: python main.py # ⚠️ 注意：如果您的 Python 文件不叫 main.py，请将这里修改为您的实际文件名
 
-    # 如果需要将生成的 live.m3u 提交回仓库，请保留您原有的 commit 步骤
     - name: Commit and Push M3U
       run: |
         git config --local user.email "action@github.com"
