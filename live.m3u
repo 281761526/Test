@@ -1,0 +1,711 @@
+#EXTM3U x-tvg-url="http://epg.51zmt.top:801/api/diyp/"
+#EXTINF:-1 tvg-name="浙江公共新闻" group-title="地方频道",浙江公共新闻 [1920x1080](1200ms)
+https://ali-m-l.cztv.com/channels/lantian/channel007/1080p.m3u8
+#EXTINF:-1 tvg-name="浙江国际" group-title="地方频道",浙江国际 [1920x1080](1198ms)
+https://ali-m-l.cztv.com/channels/lantian/channel010/1080p.m3u8
+#EXTINF:-1 tvg-name="浙江少儿" group-title="地方频道",浙江少儿 [1920x1080](1263ms)
+https://ali-m-l.cztv.com/channels/lantian/channel008/1080p.m3u8
+#EXTINF:-1 tvg-name="浙江教科影视" group-title="地方频道",浙江教科影视 [1920x1080](1200ms)
+https://ali-m-l.cztv.com/channels/lantian/channel004/1080p.m3u8
+#EXTINF:-1 tvg-name="之江纪录" group-title="地方频道",之江纪录 [1920x1080](1189ms)
+https://ali-m-l.cztv.com/channels/lantian/channel012/1080p.m3u8
+#EXTINF:-1 tvg-name="浙江民生休闲" group-title="地方频道",浙江民生休闲 [1920x1080](1194ms)
+https://ali-m-l.cztv.com/channels/lantian/channel006/1080p.m3u8
+#EXTINF:-1 tvg-name="浙江经视" group-title="地方频道",浙江经视 [1920x1080](1196ms)
+https://ali-m-l.cztv.com/channels/lantian/channel003/1080p.m3u8
+#EXTINF:-1 tvg-name="浙江钱江都市" group-title="地方频道",浙江钱江都市 [1920x1080](1202ms)
+https://ali-m-l.cztv.com/channels/lantian/channel002/1080p.m3u8
+#EXTINF:-1 tvg-name="亳州新闻频道" group-title="地方频道",亳州新闻频道 [1920x1080](1509ms)
+http://zbbf2.ahbztv.com/live/416.m3u8
+#EXTINF:-1 tvg-name="亳州农村频道" group-title="地方频道",亳州农村频道 [1920x1080](844ms)
+http://zbbf2.ahbztv.com/live/418.m3u8
+#EXTINF:-1 tvg-name="固镇新闻频道" group-title="地方频道",固镇新闻频道 [1920x1080](872ms)
+http://www.guzhenm.com:7001/hls/hd-live.m3u8
+#EXTINF:-1 tvg-name="固镇影视频道" group-title="地方频道",固镇影视频道 [720x576](865ms)
+http://www.guzhenm.com:7004/hls/hd-live.m3u8
+#EXTINF:-1 tvg-name="灵璧综合频道" group-title="地方频道",灵璧综合频道 [640x480](362ms)
+http://live.cms.anhuinews.com/video/s10003-lbtv/index.m3u8
+#EXTINF:-1 tvg-name="铜梁综合" group-title="地方频道",铜梁综合 [720x576](382ms)
+http://183.64.174.171:40123/ch1.m3u8
+#EXTINF:-1 tvg-name="潼南综合频道" group-title="地方频道",潼南综合频道 [1920x1080](483ms)
+http://183.230.184.51:65500/tntv1.m3u8
+#EXTINF:-1 tvg-name="江津新闻综合" group-title="地方频道",江津新闻综合 [1920x1080](360ms)
+http://222.179.155.21:1935/ch1.m3u8
+#EXTINF:-1 tvg-name="荣昌综合频道" group-title="地方频道",荣昌综合频道 [720x404](396ms)
+http://183.64.181.25:40023/rongchang01.m3u8
+#EXTINF:-1 tvg-name="河源综合" group-title="地方频道",河源综合 [960x540](752ms)
+http://tmpstream.hyrtv.cn/xwzh/sd/live.m3u8
+#EXTINF:-1 tvg-name="河源公共" group-title="地方频道",河源公共 [960x540](744ms)
+http://tmpstream.hyrtv.cn/hygg/sd/live.m3u8
+#EXTINF:-1 tvg-name="邯郸公共频道" group-title="地方频道",邯郸公共频道 [1920x1080](1242ms)
+https://jwcdnqx.hebyun.com.cn/live/hdgg/1500k/tzwj_video.m3u8
+#EXTINF:-1 tvg-name="承德新闻综合" group-title="地方频道",承德新闻综合 [960x540](593ms)
+https://jwcdnqx.hebyun.com.cn/live/cdsxwzhtv/1500k/tzwj_video.m3u8
+#EXTINF:-1 tvg-name="承德公共生活" group-title="地方频道",承德公共生活 [960x540](596ms)
+https://jwcdnqx.hebyun.com.cn/live/cdsggshtv/1500k/tzwj_video.m3u8
+#EXTINF:-1 tvg-name="涉县新闻综合" group-title="地方频道",涉县新闻综合 [1920x1080](564ms)
+https://jwcdnqx.hebyun.com.cn/live/SXTV1/1500k/tzwj_video.m3u8
+#EXTINF:-1 tvg-name="枣强综合" group-title="地方频道",枣强综合 [640x360](711ms)
+http://hbzqdb.chinashadt.com:1937/live/zqzh.stream_360p/playlist.m3u8
+#EXTINF:-1 tvg-name="昌黎综合频道" group-title="地方频道",昌黎综合频道 [1280x720](528ms)
+https://jwcdnqx.hebyun.com.cn/live/clzhpd/1500k/tzwj_video.m3u8
+#EXTINF:-1 tvg-name="迁西综合频道" group-title="地方频道",迁西综合频道 [1920x1080](533ms)
+https://jwcdnqx.hebyun.com.cn/live/qxzhpd/1500k/tzwj_video.m3u8
+#EXTINF:-1 tvg-name="清河经济综艺" group-title="地方频道",清河经济综艺 [1920x1080](211ms)
+https://jwcdnqx.hebyun.com.cn/live/qinghe1/1500k/tzwj_video.m3u8
+#EXTINF:-1 tvg-name="青县新闻" group-title="地方频道",青县新闻 [1920x1080](250ms)
+https://jwcdnqx.hebyun.com.cn/live/qxtvlive1/1500k/tzwj_video.m3u8
+#EXTINF:-1 tvg-name="任丘综合" group-title="地方频道",任丘综合 [1920x1080](252ms)
+https://jwcdnqx.hebyun.com.cn/live/rqtv1/1500k/tzwj_video.m3u8
+#EXTINF:-1 tvg-name="涞水新闻频道" group-title="地方频道",涞水新闻频道 [960x540](361ms)
+https://jwcdnqx.hebyun.com.cn/live/lsdst/1500k/tzwj_video.m3u8
+#EXTINF:-1 tvg-name="清苑新闻频道" group-title="地方频道",清苑新闻频道 [1920x1080](247ms)
+https://jwcdnqx.hebyun.com.cn/live/qyxwpd/1500k/tzwj_video.m3u8
+#EXTINF:-1 tvg-name="丰宁综合频道" group-title="地方频道",丰宁综合频道 [1920x1080](226ms)
+https://jwcdnqx.hebyun.com.cn/live/fengningzonghe/1500k/tzwj_video.m3u8
+#EXTINF:-1 tvg-name="平泉综合频道" group-title="地方频道",平泉综合频道 [1280x720](200ms)
+https://jwcdnqx.hebyun.com.cn/live/pqzh/1500k/tzwj_video.m3u8
+#EXTINF:-1 tvg-name="平泉影视频道" group-title="地方频道",平泉影视频道 [1280x720](254ms)
+https://jwcdnqx.hebyun.com.cn/live/pqys/1500k/tzwj_video.m3u8
+#EXTINF:-1 tvg-name="双滦新闻频道" group-title="地方频道",双滦新闻频道 [1920x1080](248ms)
+https://jwcdnqx.hebyun.com.cn/live/slxw/1500k/tzwj_video.m3u8
+#EXTINF:-1 tvg-name="兴隆综合频道" group-title="地方频道",兴隆综合频道 [1920x1080](199ms)
+https://jwcdnqx.hebyun.com.cn/live/xlzh/1500k/tzwj_video.m3u8
+#EXTINF:-1 tvg-name="哈尔滨新闻综合" group-title="地方频道",哈尔滨新闻综合 [640x480](628ms)
+http://stream.hrbtv.net/xwzh/sd/live.m3u8
+#EXTINF:-1 tvg-name="哈尔滨影视" group-title="地方频道",哈尔滨影视 [640x480](617ms)
+http://stream.hrbtv.net/yspd/sd/live.m3u8
+#EXTINF:-1 tvg-name="哈尔滨生活" group-title="地方频道",哈尔滨生活 [640x480](543ms)
+http://stream.hrbtv.net/shpd/sd/live.m3u8
+#EXTINF:-1 tvg-name="哈尔滨娱乐" group-title="地方频道",哈尔滨娱乐 [640x480](525ms)
+http://stream.hrbtv.net/ylpd/sd/live.m3u8
+#EXTINF:-1 tvg-name="荆门新闻综合" group-title="地方频道",荆门新闻综合 [1920x1080](1840ms)
+http://stream.jmtv.com.cn/xwzh/sd/live.m3u8
+#EXTINF:-1 tvg-name="荆门教育频道" group-title="地方频道",荆门教育频道 [1920x1080](1552ms)
+http://stream.jmtv.com.cn/ggsh/sd/live.m3u8
+#EXTINF:-1 tvg-name="荆门公共频道" group-title="地方频道",荆门公共频道 [1920x1080](2152ms)
+http://stream.jmtv.com.cn/ngpd/sd/live.m3u8
+#EXTINF:-1 tvg-name="江夏新闻综合" group-title="地方频道",江夏新闻综合 [720x576](369ms)
+http://59.175.226.142:280/gb28181/xwzh.m3u8
+#EXTINF:-1 tvg-name="武进新闻频道" group-title="地方频道",武进新闻频道 [720x576](882ms)
+https://live.wjyanghu.com/live/CH1.m3u8
+#EXTINF:-1 tvg-name="武进新闻频道" group-title="地方频道",武进新闻频道 [720x576](1364ms)
+https://live.wjyanghu.com/live/CH1.m3u8
+#EXTINF:-1 tvg-name="武进生活频道" group-title="地方频道",武进生活频道 [720x576](830ms)
+https://live.wjyanghu.com/live/CH2.m3u8
+#EXTINF:-1 tvg-name="武进生活频道" group-title="地方频道",武进生活频道 [720x576](1278ms)
+https://live.wjyanghu.com/live/CH2.m3u8
+#EXTINF:-1 tvg-name="新沂新闻频道" group-title="地方频道",新沂新闻频道 [1280x720](880ms)
+http://live.xysrmt.cn/xwzh/sd/live.m3u8
+#EXTINF:-1 tvg-name="新沂新闻频道" group-title="地方频道",新沂新闻频道 [1280x720](977ms)
+http://live.xysrmt.cn/xwzh/sd/live.m3u8
+#EXTINF:-1 tvg-name="新沂生活频道" group-title="地方频道",新沂生活频道 [1280x720](379ms)
+http://live.xysrmt.cn/shpd/sd/live.m3u8
+#EXTINF:-1 tvg-name="新沂生活频道" group-title="地方频道",新沂生活频道 [1280x720](955ms)
+http://live.xysrmt.cn/shpd/sd/live.m3u8
+#EXTINF:-1 tvg-name="句容新闻综合" group-title="地方频道",句容新闻综合 [720x576](685ms)
+http://jrlive.jrntv.com/live/_definst_/jrxwzhs/playlist.m3u8
+#EXTINF:-1 tvg-name="句容新闻综合" group-title="地方频道",句容新闻综合 [720x576](1183ms)
+http://jrlive.jrntv.com/live/_definst_/jrxwzhs/playlist.m3u8
+#EXTINF:-1 tvg-name="句容生活频道" group-title="地方频道",句容生活频道 [720x576](631ms)
+http://jrlive.jrntv.com/live/_definst_/shenghuos/playlist.m3u8
+#EXTINF:-1 tvg-name="句容生活频道" group-title="地方频道",句容生活频道 [720x576](994ms)
+http://jrlive.jrntv.com/live/_definst_/shenghuos/playlist.m3u8
+#EXTINF:-1 tvg-name="句容影视频道" group-title="地方频道",句容影视频道 [720x576](625ms)
+http://jrlive.jrntv.com/live/_definst_/yingshis/playlist.m3u8
+#EXTINF:-1 tvg-name="句容影视频道" group-title="地方频道",句容影视频道 [720x576](955ms)
+http://jrlive.jrntv.com/live/_definst_/yingshis/playlist.m3u8
+#EXTINF:-1 tvg-name="句容党建频道" group-title="地方频道",句容党建频道 [720x576](546ms)
+http://jrlive.jrntv.com/live/_definst_/dangjians/playlist.m3u8
+#EXTINF:-1 tvg-name="句容党建频道" group-title="地方频道",句容党建频道 [720x576](901ms)
+http://jrlive.jrntv.com/live/_definst_/dangjians/playlist.m3u8
+#EXTINF:-1 tvg-name="通化新闻" group-title="地方频道",通化新闻 [1280x720](628ms)
+http://stream2.jlntv.cn/tonghua1/sd/live.m3u8
+#EXTINF:-1 tvg-name="吉林市新闻综合" group-title="地方频道",吉林市新闻综合 [720x576](608ms)
+http://stream2.jlntv.cn/jilin1/sd/live.m3u8
+#EXTINF:-1 tvg-name="四平新闻综合" group-title="地方频道",四平新闻综合 [720x576](538ms)
+http://stream2.jlntv.cn/sptv/sd/live.m3u8
+#EXTINF:-1 tvg-name="辽源新闻综合" group-title="地方频道",辽源新闻综合 [1280x720](652ms)
+http://stream2.jlntv.cn/liaoyuan1/sd/live.m3u8
+#EXTINF:-1 tvg-name="松原新闻综合" group-title="地方频道",松原新闻综合 [1280x720](483ms)
+http://stream2.jlntv.cn/sytv/sd/live.m3u8
+#EXTINF:-1 tvg-name="松原公共频道" group-title="地方频道",松原公共频道 [1280x720](1682ms)
+http://stream8.jlntv.cn/sytv2/sd/live.m3u8
+#EXTINF:-1 tvg-name="白城新闻综合" group-title="地方频道",白城新闻综合 [720x576](452ms)
+http://stream2.jlntv.cn/baicheng1/sd/live.m3u8
+#EXTINF:-1 tvg-name="长白山电视台" group-title="地方频道",长白山电视台 [320x240](1652ms)
+http://stream8.jlntv.cn/cbstv/sd/live.m3u8
+#EXTINF:-1 tvg-name="德惠综合" group-title="地方频道",德惠综合 [720x576](1385ms)
+http://stream11.jlntv.cn/dehuitv/sd/live.m3u8
+#EXTINF:-1 tvg-name="九台综合" group-title="地方频道",九台综合 [720x576](1346ms)
+http://stream10.jlntv.cn/jiutaitv/sd/live.m3u8
+#EXTINF:-1 tvg-name="农安新闻综合" group-title="地方频道",农安新闻综合 [720x576](481ms)
+http://stream2.jlntv.cn/naxw/sd/live.m3u8
+#EXTINF:-1 tvg-name="双阳综合" group-title="地方频道",双阳综合 [720x576](1318ms)
+http://stream11.jlntv.cn/shuangyang/sd/live.m3u8
+#EXTINF:-1 tvg-name="江源综合频道" group-title="地方频道",江源综合频道 [720x576](1308ms)
+http://stream10.jlntv.cn/jiangyuantv/sd/live.m3u8
+#EXTINF:-1 tvg-name="靖宇综合频道" group-title="地方频道",靖宇综合频道 [720x576](1536ms)
+http://stream8.jlntv.cn/jytv/sd/live.m3u8
+#EXTINF:-1 tvg-name="敦化一套" group-title="地方频道",敦化一套 [320x240](1362ms)
+http://stream8.jlntv.cn/dhtv/playlist.m3u8
+#EXTINF:-1 tvg-name="珲春新闻综合" group-title="地方频道",珲春新闻综合 [720x576](1270ms)
+http://stream8.jlntv.cn/hctv/sd/live.m3u8
+#EXTINF:-1 tvg-name="龙井综合" group-title="地方频道",龙井综合 [720x576](1123ms)
+http://stream8.jlntv.cn/ljtv/sd/live.m3u8
+#EXTINF:-1 tvg-name="梅河口综合" group-title="地方频道",梅河口综合 [720x576](559ms)
+http://stream4.jlntv.cn/mhk/sd/live.m3u8
+#EXTINF:-1 tvg-name="桦甸综合" group-title="地方频道",桦甸综合 [720x576](503ms)
+http://stream10.jlntv.cn/huadian/sd/live.m3u8
+#EXTINF:-1 tvg-name="磐石综合" group-title="地方频道",磐石综合 [720x576](2175ms)
+http://stream5.jlntv.cn/ps/sd/live.m3u8
+#EXTINF:-1 tvg-name="舒兰新闻综合" group-title="地方频道",舒兰新闻综合 [720x576](1724ms)
+http://stream8.jlntv.cn/shulan/sd/live.m3u8
+#EXTINF:-1 tvg-name="永吉综合频道" group-title="地方频道",永吉综合频道 [720x576](363ms)
+http://stream10.jlntv.cn/yongji/sd/live.m3u8
+#EXTINF:-1 tvg-name="东丰综合" group-title="地方频道",东丰综合 [720x576](629ms)
+http://stream5.jlntv.cn/df/sd/live.m3u8
+#EXTINF:-1 tvg-name="东辽综合" group-title="地方频道",东辽综合 [720x576](398ms)
+http://stream5.jlntv.cn/dl/sd/live.m3u8
+#EXTINF:-1 tvg-name="双辽综合" group-title="地方频道",双辽综合 [320x240](223ms)
+http://stream5.jlntv.cn/sl/sd/live.m3u8
+#EXTINF:-1 tvg-name="前郭综合频道" group-title="地方频道",前郭综合频道 [720x576](249ms)
+http://stream2.jlntv.cn/qg/sd/live.m3u8
+#EXTINF:-1 tvg-name="辉南新闻综合" group-title="地方频道",辉南新闻综合 [720x576](388ms)
+http://stream5.jlntv.cn/hn/sd/live.m3u8
+#EXTINF:-1 tvg-name="集安综合频道" group-title="地方频道",集安综合频道 [320x240](182ms)
+http://stream2.jlntv.cn/ja/sd/live.m3u8
+#EXTINF:-1 tvg-name="柳河综合" group-title="地方频道",柳河综合 [720x576](392ms)
+http://stream5.jlntv.cn/lh/sd/live.m3u8
+#EXTINF:-1 tvg-name="通化县综合" group-title="地方频道",通化县综合 [320x240](230ms)
+http://stream5.jlntv.cn/thx/sd/live.m3u8
+#EXTINF:-1 tvg-name="汪清综合" group-title="地方频道",汪清综合 [320x240](1390ms)
+http://stream5.jlntv.cn/wq/sd/live.m3u8
+#EXTINF:-1 tvg-name="元宝山综合" group-title="地方频道",元宝山综合 [1920x1080](1860ms)
+http://l2yx82zv.live2.danghongyun.com/live/hls/8be0890a1b0c4d7aaf80b51ea8646682/5a8988f5ecc64986a19aa9b6b3a052a6-1.m3u8
+#EXTINF:-1 tvg-name="晋城新闻" group-title="地方频道",晋城新闻 [1920x1080](942ms)
+http://live.jinnews.com.cn/xwzh/sd/live.m3u8
+#EXTINF:-1 tvg-name="晋城公共" group-title="地方频道",晋城公共 [1920x1080](929ms)
+http://live.jinnews.com.cn/ggpd/sd/live.m3u8
+#EXTINF:-1 tvg-name="武乡新闻综合" group-title="地方频道",武乡新闻综合 [1280x720](458ms)
+http://60.220.198.84:81/0.m3u8
+#EXTINF:-1 tvg-name="定襄综合" group-title="地方频道",定襄综合 [1280x720](1922ms)
+http://lbyzztfe.live.sxmty.com/live/hls/645ff4c60e0a49f0a203abbd73dd8be9/0720e665f10f48e98c9639f4f492fb4a-1.m3u8
+#EXTINF:-1 tvg-name="广安新闻综合" group-title="地方频道",广安新闻综合 [1920x1080](1483ms)
+http://live1.gatv.com.cn:85/live/XWZH.m3u8
+#EXTINF:-1 tvg-name="广安公共频道" group-title="地方频道",广安公共频道 [720x576](1472ms)
+http://live1.gatv.com.cn:85/live/GGPD_ggpdzm.m3u8
+#EXTINF:-1 tvg-name="泸州新闻综合" group-title="地方频道",泸州新闻综合 [1280x720](989ms)
+http://m3u8.channel.luzhoubs.com/nmip-media/channellive/channel106011/playlist.m3u8
+#EXTINF:-1 tvg-name="泸州公共频道" group-title="地方频道",泸州公共频道 [1280x720](978ms)
+http://m3u8.channel.luzhoubs.com/nmip-media/channellive/channel102221/playlist.m3u8
+#EXTINF:-1 tvg-name="泸州科教频道" group-title="地方频道",泸州科教频道 [1280x720](966ms)
+http://m3u8.channel.luzhoubs.com/nmip-media/channellive/channel103074/playlist.m3u8
+#EXTINF:-1 tvg-name="凉山新闻综合" group-title="地方频道",凉山新闻综合 [720x404](996ms)
+http://file.yizu.tv/nmip-media/channellive/channel106606/playlist.m3u8
+#EXTINF:-1 tvg-name="南部新闻综合" group-title="地方频道",南部新闻综合 [1280x720](1282ms)
+http://pili-live-rtmp.148.i2863.com/i2863-148/live_148_811389.m3u8
+#EXTINF:-1 tvg-name="黑水新闻综合" group-title="地方频道",黑水新闻综合 [1920x1080](1268ms)
+http://live.schstv.com:90/live/xwzh.m3u8
+#EXTINF:-1 tvg-name="金川新闻综合" group-title="地方频道",金川新闻综合 [1920x1080](408ms)
+http://139.203.180.9:90/live/zhxw.m3u8
+#EXTINF:-1 tvg-name="金川新闻综合" group-title="地方频道",金川新闻综合 [1920x1080](1067ms)
+http://live.jinchuanrmt.com:90/live/zhxw.m3u8
+#EXTINF:-1 tvg-name="金川乡村频道" group-title="地方频道",金川乡村频道 [1024x576](411ms)
+http://live.jinchuanrmt.com:90/live/jcxc.m3u8
+#EXTINF:-1 tvg-name="金川乡村频道" group-title="地方频道",金川乡村频道 [1024x576](412ms)
+http://139.203.180.9:90/live/jcxc.m3u8
+#EXTINF:-1 tvg-name="松潘新闻综合" group-title="地方频道",松潘新闻综合 [1920x1080](976ms)
+http://live.spccmc.com:90/live/spxwzh.m3u8
+#EXTINF:-1 tvg-name="汶川新闻综合" group-title="地方频道",汶川新闻综合 [1280x720](1170ms)
+http://live.iwcmt.cn:90/live/zhxw.m3u8
+#EXTINF:-1 tvg-name="乐至综合频道" group-title="地方频道",乐至综合频道 [1920x1080](351ms)
+http://175.155.106.72:89/live1/live1.m3u8
+#EXTINF:-1 tvg-name="沐川综合频道" group-title="地方频道",沐川综合频道 [1920x1080](1435ms)
+http://tvfile.mcrm.org.cn/nmip-media/channellive/channel103064/playlist.m3u8
+#EXTINF:-1 tvg-name="吉木萨尔综合" group-title="地方频道",吉木萨尔综合 [1920x1080](416ms)
+http://218.31.201.189:9000/api/material/local/mnt/shiping1/prog_index.m3u8
+#EXTINF:-1 tvg-name="奎屯汉语综合" group-title="地方频道",奎屯汉语综合 [0x0](441ms)
+http://218.84.12.186:8001/hls/main/playlist.m3u8
+#EXTINF:-1 tvg-name="奎屯哈萨克语" group-title="地方频道",奎屯哈萨克语 [0x0](437ms)
+http://218.84.12.186:8002/hls/main/playlist.m3u8
+#EXTINF:-1 tvg-name="绍兴新闻综合" group-title="地方频道",绍兴新闻综合 [1280x720](296ms)
+http://live.shaoxing.com.cn/video/s10001-sxhb/index.m3u8
+#EXTINF:-1 tvg-name="绍兴新闻综合" group-title="地方频道",绍兴新闻综合 [720x576](407ms)
+http://live.shaoxing.com.cn/video/s10001-sxtv1/index.m3u8
+#EXTINF:-1 tvg-name="绍兴新闻综合" group-title="地方频道",绍兴新闻综合 [1280x720](544ms)
+http://live.shaoxing.com.cn/video/s10001-sxhb/index.m3u8
+#EXTINF:-1 tvg-name="绍兴公共频道" group-title="地方频道",绍兴公共频道 [1280x720](350ms)
+http://live.shaoxing.com.cn/video/s10001-sxtv2/index.m3u8
+#EXTINF:-1 tvg-name="绍兴公共频道" group-title="地方频道",绍兴公共频道 [1280x720](450ms)
+http://live.shaoxing.com.cn/video/s10001-sxtv2/index.m3u8
+#EXTINF:-1 tvg-name="绍兴文化影视" group-title="地方频道",绍兴文化影视 [1280x720](363ms)
+http://live.shaoxing.com.cn/video/s10001-sxtv3/index.m3u8
+#EXTINF:-1 tvg-name="绍兴文化影视" group-title="地方频道",绍兴文化影视 [1280x720](448ms)
+http://live.shaoxing.com.cn/video/s10001-sxtv3/index.m3u8
+#EXTINF:-1 tvg-name="北京-水长城02" group-title="地方频道",北京-水长城02 [1920x1080](1153ms)
+https://gcalic.v.myalicdn.com/gc/wgw02_1/index.m3u8?contentid=2820180516001
+#EXTINF:-1 tvg-name="北京-水长城03" group-title="地方频道",北京-水长城03 [1920x1080](843ms)
+https://gcalic.v.myalicdn.com/gc/wgw03_1/index.m3u8?contentid=2820180516001
+#EXTINF:-1 tvg-name="安徽-黄山飞来石" group-title="地方频道",安徽-黄山飞来石 [1920x1080](896ms)
+https://gcalic.v.myalicdn.com/gc/hsptgy_1/index.m3u8?contentid=2820180516001
+#EXTINF:-1 tvg-name="广东-梅州梅江" group-title="地方频道",广东-梅州梅江 [1280x720](632ms)
+http://gcalic.v.myalicdn.com/gc/gllj01_1/index.m3u8
+#EXTINF:-1 tvg-name="靖江新闻综合" group-title="地方频道",靖江新闻综合 [1280x720](361ms)
+http://visit.jjbctv.com:1935/live/xwzhmb/playlist.m3u8
+#EXTINF:-1 tvg-name="ArirangTV HD" group-title="地方频道",ArirangTV HD [1280x720](257ms)
+https://amdlive-ch01-ctnd-com.akamaized.net/arirang_1ch/smil:arirang_1ch.smil/chunklist_b2256000_sleng.m3u8
+#EXTINF:-1 tvg-name="Bloomberg HT HD" group-title="地方频道",Bloomberg HT HD [1280x720](1426ms)
+https://ciner.daioncdn.net/bloomberght/bloomberght_720p.m3u8
+#EXTINF:-1 tvg-name="Bloomberg TV Asia (Live)" group-title="地方频道",Bloomberg TV Asia (Live) [1280x720](248ms)
+https://www.bloomberg.com/media-manifest/streams/asia-event.m3u8
+#EXTINF:-1 tvg-name="ChannelNewsAsia FHD" group-title="地方频道",ChannelNewsAsia FHD [480x270](217ms)
+https://d2e1asnsl7br7b.cloudfront.net/7782e205e72f43aeb4a48ec97f66ebbe/index.m3u8
+#EXTINF:-1 tvg-name="Alhorreya TV" group-title="地方频道",Alhorreya TV [1920x1080](271ms)
+https://5d658d7e9f562.streamlock.net/alhorreya.tv/alhorreya.smil/playlist.m3u8
+#EXTINF:-1 tvg-name="Groovy TV | HD" group-title="地方频道",Groovy TV | HD [720x360](1632ms)
+http://web.onair-radio.eu:1935/groovytv/groovytv/playlist.m3u8
+#EXTINF:-1 tvg-name="HTV 1 Houston Television" group-title="地方频道",HTV 1 Houston Television [1280x720](166ms)
+https://stream.swagit.com/live-edge/houstontx/smil:hd-16x9-2-a/playlist.m3u8
+#EXTINF:-1 tvg-name="HTV 2 - Houston Television" group-title="地方频道",HTV 2 - Houston Television [1280x720](170ms)
+https://stream.swagit.com/live-edge/houstontx/smil:hd-16x9-2-b/HasBahCa.m3u8
+#EXTINF:-1 tvg-name="HTV 2 Houston Television" group-title="地方频道",HTV 2 Houston Television [1280x720](154ms)
+https://stream.swagit.com/live-edge/houstontx/smil:hd-16x9-2-b/playlist.m3u8
+#EXTINF:-1 tvg-name="HTV Houston Television" group-title="地方频道",HTV Houston Television [1280x720](155ms)
+https://stream.swagit.com/live-edge/houstontx/smil:hd-16x9-2-a/chunklist_w444601733_b1628000.m3u8
+#EXTINF:-1 tvg-name="Motorvisison TV | HD" group-title="地方频道",Motorvisison TV | HD [1280x720](493ms)
+https://stream.ads.ottera.tv/playlist.m3u8?network_id=535
+#EXTINF:-1 tvg-name="WCCA-TV (Worcester)" group-title="地方频道",WCCA-TV (Worcester) [720x480](223ms)
+http://worcester.vod.castus.tv/live/ch1.m3u8
+#EXTINF:-1 tvg-name="White Plains Community Media | HD 720p" group-title="地方频道",White Plains Community Media | HD 720p [0x0](85ms)
+https://stream.swagit.com/live-edge/whiteplainsny/smil:std-4x3-1-b/playlist.m3u8
+#EXTINF:-1 tvg-name="CGTN" group-title="地方频道",CGTN [1920x1080](412ms)
+https://english-livebkali.cgtn.com/live/encgtn_0.m3u8
+#EXTINF:-1 tvg-name="CGTN纪录" group-title="地方频道",CGTN纪录 [1920x1080](296ms)
+http://english-livebkali.cgtn.com/live/doccgtn_0.m3u8
+#EXTINF:-1 tvg-name="CGTN纪录" group-title="地方频道",CGTN纪录 [1920x1080](409ms)
+https://english-livebkali.cgtn.com/live/doccgtn_0.m3u8
+#EXTINF:-1 tvg-name="春晚" group-title="地方频道",春晚 [786x576](9ms)
+https://alimov2.a.kwimgs.com/upic/2023/01/13/20/BMjAyMzAxMTMyMDA5MjJfNDAzMDAxOTlfOTM0OTkwNDQzOTBfMF8z_b_B29a36a85e0277f6c2a1f033ef7c10708.mp4
+#EXTINF:-1 tvg-name="春晚" group-title="地方频道",春晚 [982x720](10ms)
+https://alimov2.a.kwimgs.com/upic/2023/01/16/11/BMjAyMzAxMTYxMTA3MjFfNDAzMDAxOTlfOTM3MjcyMjA3ODhfMF8z_b_B8214200efc869dc6fcf99dad619fa4c1.mp4
+#EXTINF:-1 tvg-name="春晚" group-title="地方频道",春晚 [1280x720](10ms)
+https://alimov2.a.kwimgs.com/upic/2022/01/30/17/BMjAyMjAxMzAxNzA5NDdfNDAzMDAxOTlfNjYxNzQ2MDAyMTFfMF8z_b_B5d51d9564c5670dc66faeba20aa7af3f.mp4
+#EXTINF:-1 tvg-name="CCTV-1综合" group-title="央视频道",CCTV-1综合 [1280x720](476ms)
+http://207.56.13.146:81/cdnlive/cctv1.m3u8
+#EXTINF:-1 tvg-name="CCTV-2财经" group-title="央视频道",CCTV-2财经 [1280x720](996ms)
+http://207.56.13.146:81/cdnlive/cctv2.m3u8
+#EXTINF:-1 tvg-name="CCTV-3综艺" group-title="央视频道",CCTV-3综艺 [1280x720](432ms)
+http://207.56.13.146:81/cdnlive/cctv3.m3u8
+#EXTINF:-1 tvg-name="CCTV-4中文国际" group-title="央视频道",CCTV-4中文国际 [1280x720](500ms)
+http://207.56.13.146:81/cdnlive/cctv4.m3u8
+#EXTINF:-1 tvg-name="CCTV-5体育" group-title="央视频道",CCTV-5体育 [1280x720](447ms)
+http://207.56.13.146:81/cdnlive/cctv5.m3u8
+#EXTINF:-1 tvg-name="CCTV-6电影" group-title="央视频道",CCTV-6电影 [1280x720](492ms)
+http://207.56.13.146:81/cdnlive/cctv6.m3u8
+#EXTINF:-1 tvg-name="CCTV-7国防军事" group-title="央视频道",CCTV-7国防军事 [1280x720](491ms)
+http://207.56.13.146:81/cdnlive/cctv7.m3u8
+#EXTINF:-1 tvg-name="CCTV-8电视剧" group-title="央视频道",CCTV-8电视剧 [1280x720](419ms)
+http://207.56.13.146:81/cdnlive/cctv8.m3u8
+#EXTINF:-1 tvg-name="CCTV-9纪录" group-title="央视频道",CCTV-9纪录 [1920x1080](447ms)
+http://207.56.13.146:81/cdnlive/cctv9.m3u8
+#EXTINF:-1 tvg-name="CCTV-10科教" group-title="央视频道",CCTV-10科教 [1920x1080](435ms)
+http://207.56.13.146:81/cdnlive/cctv10.m3u8
+#EXTINF:-1 tvg-name="CCTV-11戏曲" group-title="央视频道",CCTV-11戏曲 [1920x1080](447ms)
+http://207.56.13.146:81/cdnlive/cctv11.m3u8
+#EXTINF:-1 tvg-name="CCTV-12社会与法" group-title="央视频道",CCTV-12社会与法 [1920x1080](791ms)
+http://207.56.13.146:81/cdnlive/cctv12.m3u8
+#EXTINF:-1 tvg-name="CCTV-13新闻" group-title="央视频道",CCTV-13新闻 [1920x1080](431ms)
+http://207.56.13.146:81/cdnlive/cctv13.m3u8
+#EXTINF:-1 tvg-name="CCTV-14少儿" group-title="央视频道",CCTV-14少儿 [1920x1080](1101ms)
+http://207.56.13.146:81/cdnlive/cctv14.m3u8
+#EXTINF:-1 tvg-name="CCTV-15音乐" group-title="央视频道",CCTV-15音乐 [1920x1080](1218ms)
+http://207.56.13.146:81/cdnlive/cctv15.m3u8
+#EXTINF:-1 tvg-name="CCTV-16奥林匹克" group-title="央视频道",CCTV-16奥林匹克 [1920x1080](429ms)
+http://207.56.13.146:81/cdnlive/cctv16.m3u8
+#EXTINF:-1 tvg-name="CCTV-17农业农村" group-title="央视频道",CCTV-17农业农村 [1280x720](426ms)
+http://207.56.13.146:81/cdnlive/cctv17.m3u8
+#EXTINF:-1 tvg-name="体育赛事" group-title="地方频道",体育赛事 [1280x720](414ms)
+http://207.56.13.146:81/cdnlive/cctv5p.m3u8
+#EXTINF:-1 tvg-name="兵器科技" group-title="地方频道",兵器科技 [1280x720](468ms)
+http://207.56.13.146:81/cdnlive/gfjs.m3u8
+#EXTINF:-1 tvg-name="女性时尚" group-title="地方频道",女性时尚 [1280x720](507ms)
+http://207.56.13.146:81/cdnlive/nxss.m3u8
+#EXTINF:-1 tvg-name="世界地理" group-title="地方频道",世界地理 [1280x720](523ms)
+http://207.56.13.146:81/cdnlive/sjdl.m3u8
+#EXTINF:-1 tvg-name="卫生健康" group-title="地方频道",卫生健康 [1280x720](1011ms)
+http://207.56.13.146:81/cdnlive/wsjk.m3u8
+#EXTINF:-1 tvg-name="文化精品" group-title="地方频道",文化精品 [1280x720](945ms)
+http://207.56.13.146:81/cdnlive/ysjp.m3u8
+#EXTINF:-1 tvg-name="第一剧场" group-title="地方频道",第一剧场 [1280x720](578ms)
+http://207.56.13.146:81/cdnlive/dyjc.m3u8
+#EXTINF:-1 tvg-name="怀旧剧场" group-title="地方频道",怀旧剧场 [1920x1080](516ms)
+http://207.56.13.146:81/cdnlive/hjjc.m3u8
+#EXTINF:-1 tvg-name="风云剧场" group-title="地方频道",风云剧场 [1920x1080](989ms)
+http://207.56.13.146:81/cdnlive/fyjc.m3u8
+#EXTINF:-1 tvg-name="风云足球" group-title="地方频道",风云足球 [1280x720](1088ms)
+http://207.56.13.146:81/cdnlive/fyzq.m3u8
+#EXTINF:-1 tvg-name="风云音乐" group-title="地方频道",风云音乐 [1280x720](441ms)
+http://207.56.13.146:81/cdnlive/fyyy.m3u8
+#EXTINF:-1 tvg-name="央视台球" group-title="地方频道",央视台球 [1280x720](905ms)
+http://207.56.13.146:81/cdnlive/ystq.m3u8
+#EXTINF:-1 tvg-name="高尔夫网球" group-title="地方频道",高尔夫网球 [1280x720](519ms)
+http://207.56.13.146:81/cdnlive/gefwq.m3u8
+#EXTINF:-1 tvg-name="CGTN英语" group-title="地方频道",CGTN英语 [1920x1080](374ms)
+https://english-livebkali.cgtn.com/live/encgtn_0.m3u8
+#EXTINF:-1 tvg-name="CGTN西语" group-title="地方频道",CGTN西语 [1920x1080](641ms)
+http://espanol-liveali.cgtn.com/hls/LSveOGBaBw41Ea7ukkVAUdKQ220802LSTexu6xAuFH8VZNBLE1ZNEa220802cd.m3u8
+#EXTINF:-1 tvg-name="CGTN法语" group-title="地方频道",CGTN法语 [1920x1080](743ms)
+http://francais-livews.cgtn.com/hls/LSvev95OuFZtKLc6CeKEFYXj220802LSTeV6PO0Ut9r71Uq3k5goCA220802cd.m3u8
+#EXTINF:-1 tvg-name="CGTN俄语" group-title="地方频道",CGTN俄语 [1920x1080](676ms)
+http://russian-livews.cgtn.com/hls/LSvexABhNipibK5KRuUkvHZ7220802LSTeze9o8tdFXMHsb1VosgoT220802cd.m3u8
+#EXTINF:-1 tvg-name="CGTN阿语" group-title="地方频道",CGTN阿语 [1920x1080](801ms)
+http://arabic-livews.cgtn.com/hls/LSveq57bErWLinBnxosqjisZ220802LSTefTAS9zc9mpU08y3np9TH220802cd.m3u8
+#EXTINF:-1 tvg-name="安徽卫视" group-title="卫视频道",安徽卫视 [1920x1080](446ms)
+http://207.56.13.146:81/cdnlive/ahws.m3u8
+#EXTINF:-1 tvg-name="北京卫视" group-title="卫视频道",北京卫视 [1920x1080](430ms)
+http://207.56.13.146:81/cdnlive/bjws.m3u8
+#EXTINF:-1 tvg-name="东方卫视" group-title="卫视频道",东方卫视 [1280x720](430ms)
+http://207.56.13.146:81/cdnlive/dfws.m3u8
+#EXTINF:-1 tvg-name="广东卫视" group-title="卫视频道",广东卫视 [1920x1080](454ms)
+http://207.56.13.146:81/cdnlive/gdws.m3u8
+#EXTINF:-1 tvg-name="湖南卫视" group-title="卫视频道",湖南卫视 [1920x1080](434ms)
+http://207.56.13.146:81/cdnlive/hnws.m3u8
+#EXTINF:-1 tvg-name="江苏卫视" group-title="卫视频道",江苏卫视 [1920x1080](417ms)
+http://207.56.13.146:81/cdnlive/jsws.m3u8
+#EXTINF:-1 tvg-name="江西卫视" group-title="卫视频道",江西卫视 [1920x1080](611ms)
+http://207.56.13.146:81/cdnlive/jxws.m3u8
+#EXTINF:-1 tvg-name="辽宁卫视" group-title="卫视频道",辽宁卫视 [1920x1080](413ms)
+http://207.56.13.146:81/cdnlive/lnws.m3u8
+#EXTINF:-1 tvg-name="山东卫视" group-title="卫视频道",山东卫视 [1920x1080](424ms)
+http://207.56.13.146:81/cdnlive/sdws.m3u8
+#EXTINF:-1 tvg-name="深圳卫视" group-title="卫视频道",深圳卫视 [1920x1080](706ms)
+http://207.56.13.146:81/cdnlive/szws.m3u8
+#EXTINF:-1 tvg-name="天津卫视" group-title="卫视频道",天津卫视 [1920x1080](440ms)
+http://207.56.13.146:81/cdnlive/tjws.m3u8
+#EXTINF:-1 tvg-name="浙江卫视" group-title="卫视频道",浙江卫视 [1920x1080](408ms)
+http://207.56.13.146:81/cdnlive/zjws.m3u8
+#EXTINF:-1 tvg-name="西藏卫视" group-title="卫视频道",西藏卫视 [1920x1080](411ms)
+http://207.56.13.146:81/cdnlive/xzws.m3u8
+#EXTINF:-1 tvg-name="新疆卫视" group-title="卫视频道",新疆卫视 [1280x720](836ms)
+http://207.56.13.146:81/cdnlive/xjws.m3u8
+#EXTINF:-1 tvg-name="内蒙古卫视" group-title="卫视频道",内蒙古卫视 [1920x1080](529ms)
+http://207.56.13.146:81/cdnlive/nmgws.m3u8
+#EXTINF:-1 tvg-name="甘肃卫视" group-title="卫视频道",甘肃卫视 [1920x1080](413ms)
+http://207.56.13.146:81/cdnlive/gsws.m3u8
+#EXTINF:-1 tvg-name="河北卫视" group-title="卫视频道",河北卫视 [1920x1080](479ms)
+http://207.56.13.146:81/cdnlive/hews.m3u8
+#EXTINF:-1 tvg-name="四川卫视" group-title="卫视频道",四川卫视 [1920x1080](479ms)
+http://207.56.13.146:81/cdnlive/scws.m3u8
+#EXTINF:-1 tvg-name="陕西卫视" group-title="卫视频道",陕西卫视 [1920x1080](918ms)
+http://207.56.13.146:81/cdnlive/snws.m3u8
+#EXTINF:-1 tvg-name="云南卫视" group-title="卫视频道",云南卫视 [1280x720](490ms)
+http://207.56.13.146:81/cdnlive/ynws.m3u8
+#EXTINF:-1 tvg-name="广西卫视" group-title="卫视频道",广西卫视 [1920x1080](1086ms)
+http://207.56.13.146:81/cdnlive/gxws.m3u8
+#EXTINF:-1 tvg-name="重庆卫视" group-title="卫视频道",重庆卫视 [1920x1080](885ms)
+http://207.56.13.146:81/cdnlive/cqws.m3u8
+#EXTINF:-1 tvg-name="贵州卫视" group-title="卫视频道",贵州卫视 [1920x1080](957ms)
+http://207.56.13.146:81/cdnlive/gzws.m3u8
+#EXTINF:-1 tvg-name="湖北卫视" group-title="卫视频道",湖北卫视 [1920x1080](546ms)
+http://207.56.13.146:81/cdnlive/hbws.m3u8
+#EXTINF:-1 tvg-name="河南卫视" group-title="卫视频道",河南卫视 [1920x1080](1024ms)
+http://207.56.13.146:81/cdnlive/haws.m3u8
+#EXTINF:-1 tvg-name="吉林卫视" group-title="卫视频道",吉林卫视 [1920x1080](584ms)
+http://207.56.13.146:81/cdnlive/jlws.m3u8
+#EXTINF:-1 tvg-name="海南卫视" group-title="卫视频道",海南卫视 [1920x1080](750ms)
+http://207.56.13.146:81/cdnlive/lyws.m3u8
+#EXTINF:-1 tvg-name="黑龙江卫视" group-title="卫视频道",黑龙江卫视 [1920x1080](485ms)
+http://207.56.13.146:81/cdnlive/hljws.m3u8
+#EXTINF:-1 tvg-name="山西卫视" group-title="卫视频道",山西卫视 [720x576](409ms)
+http://207.56.13.146:81/cdnlive/sxws.m3u8
+#EXTINF:-1 tvg-name="青海卫视" group-title="卫视频道",青海卫视 [1920x1080](896ms)
+http://207.56.13.146:81/cdnlive/qhws.m3u8
+#EXTINF:-1 tvg-name="宁夏卫视" group-title="卫视频道",宁夏卫视 [720x576](475ms)
+http://207.56.13.146:81/cdnlive/nxws.m3u8
+#EXTINF:-1 tvg-name="凤凰中文" group-title="港台频道",凤凰中文 [1920x1080](27ms)
+https://cdn6.163189.xyz/163189/fhzw
+#EXTINF:-1 tvg-name="凤凰中文" group-title="港台频道",凤凰中文 [1920x1080](389ms)
+http://cdn6.163189.xyz/163189/fhzw
+#EXTINF:-1 tvg-name="凤凰资讯" group-title="港台频道",凤凰资讯 [1920x1080](21ms)
+https://cdn6.163189.xyz/163189/fhzx
+#EXTINF:-1 tvg-name="凤凰资讯" group-title="港台频道",凤凰资讯 [1920x1080](333ms)
+http://cdn6.163189.xyz/163189/fhzx
+#EXTINF:-1 tvg-name="凤凰香港" group-title="港台频道",凤凰香港 [1920x1080](25ms)
+https://cdn6.163189.xyz/163189/fhhk
+#EXTINF:-1 tvg-name="凤凰香港" group-title="港台频道",凤凰香港 [1920x1080](392ms)
+http://cdn6.163189.xyz/163189/fhhk
+#EXTINF:-1 tvg-name="Astro AOD" group-title="地方频道",Astro AOD [1920x1080](596ms)
+https://o11.163189.xyz/stream/live/aod/
+#EXTINF:-1 tvg-name="Astro AEC" group-title="地方频道",Astro AEC [1920x1080](595ms)
+https://o11.163189.xyz/stream/live/aec/
+#EXTINF:-1 tvg-name="无线新闻" group-title="港台频道",无线新闻 [1920x1080](19ms)
+https://cdn6.163189.xyz/163189/wxxw
+#EXTINF:-1 tvg-name="无线新闻" group-title="港台频道",无线新闻 [1280x720](104ms)
+https://cdn6.163189.xyz/163189/wxxwt
+#EXTINF:-1 tvg-name="无线新闻" group-title="港台频道",无线新闻 [1920x1080](244ms)
+http://cdn6.163189.xyz/163189/wxxw
+#EXTINF:-1 tvg-name="TVBS亚洲" group-title="港台频道",TVBS亚洲 [1920x1080](22ms)
+http://38.64.72.148/hls/modn/list/4005/playlist.m3u8
+#EXTINF:-1 tvg-name="NOW新闻" group-title="地方频道",NOW新闻 [1920x1080](725ms)
+http://cdn.163189.xyz/163189/now
+#EXTINF:-1 tvg-name="CH5" group-title="地方频道",CH5 [1920x1080](139ms)
+http://cdn6.163189.xyz/163189/ch5
+#EXTINF:-1 tvg-name="CH8" group-title="地方频道",CH8 [1920x1080](96ms)
+http://cdn6.163189.xyz/163189/ch8
+#EXTINF:-1 tvg-name="CHU" group-title="地方频道",CHU [1920x1080](83ms)
+http://cdn6.163189.xyz/163189/chu
+#EXTINF:-1 tvg-name="翡翠台" group-title="港台频道",翡翠台 [1920x1080](21ms)
+https://cdn6.163189.xyz/163189/fct
+#EXTINF:-1 tvg-name="翡翠台" group-title="港台频道",翡翠台 [1920x1080](24ms)
+https://o11.163189.xyz/stream/tvb/fct/
+#EXTINF:-1 tvg-name="翡翠台" group-title="港台频道",翡翠台 [3840x2160](84ms)
+https://o11.163189.xyz/stream/tvb/fct4k/
+#EXTINF:-1 tvg-name="明珠台" group-title="地方频道",明珠台 [1920x1080](109ms)
+https://o11.163189.xyz/stream/tvb/mzt/
+#EXTINF:-1 tvg-name="明珠台" group-title="地方频道",明珠台 [1920x1080](109ms)
+https://o11.163189.xyz/stream/tvb/mzt/
+#EXTINF:-1 tvg-name="八度空间" group-title="地方频道",八度空间 [1920x1080](80ms)
+http://cdn6.163189.xyz/163189/8tv
+#EXTINF:-1 tvg-name="八度空间" group-title="地方频道",八度空间 [1920x1080](89ms)
+https://cdn6.163189.xyz/163189/8tv
+#EXTINF:-1 tvg-name="龙华偶像" group-title="地方频道",龙华偶像 [1920x1080](286ms)
+http://cdn8.163189.xyz/163189/lhox
+#EXTINF:-1 tvg-name="龙华日韩" group-title="地方频道",龙华日韩 [1920x1080](527ms)
+http://cdn8.163189.xyz/163189/lhrh
+#EXTINF:-1 tvg-name="龙华戏剧" group-title="地方频道",龙华戏剧 [1920x1080](198ms)
+http://cdn8.163189.xyz/163189/lhxj
+#EXTINF:-1 tvg-name="龙华电影" group-title="地方频道",龙华电影 [1920x1080](439ms)
+https://cdn8.163189.xyz/163189/lhdy
+#EXTINF:-1 tvg-name="龙华经典" group-title="地方频道",龙华经典 [1920x1080](395ms)
+https://cdn8.163189.xyz/163189/lhjd
+#EXTINF:-1 tvg-name="澳视澳门" group-title="地方频道",澳视澳门 [1920x1080](86ms)
+http://cdn6.163189.xyz/163189/asam
+#EXTINF:-1 tvg-name="澳视澳门" group-title="地方频道",澳视澳门 [1920x1080](92ms)
+https://cdn6.163189.xyz/163189/asam
+#EXTINF:-1 tvg-name="澳门综艺" group-title="地方频道",澳门综艺 [1920x1080](101ms)
+http://cdn6.163189.xyz/163189/amzy
+#EXTINF:-1 tvg-name="澳门体育" group-title="地方频道",澳门体育 [1920x1080](25ms)
+http://cdn6.163189.xyz/163189/amty
+#EXTINF:-1 tvg-name="澳门莲花" group-title="地方频道",澳门莲花 [1920x1080](34ms)
+http://cdn6.163189.xyz/163189/amlh
+#EXTINF:-1 tvg-name="澳门莲花" group-title="地方频道",澳门莲花 [1920x1080](74ms)
+https://cdn6.163189.xyz/163189/amlh
+#EXTINF:-1 tvg-name="重温经典" group-title="地方频道",重温经典 [1920x1080](79ms)
+https://cdn6.163189.xyz/163189/cwjd
+#EXTINF:-1 tvg-name="重温经典" group-title="地方频道",重温经典 [1920x1080](96ms)
+http://cdn6.163189.xyz/163189/cwjd
+#EXTINF:-1 tvg-name="重温经典" group-title="地方频道",重温经典 [1920x1080](516ms)
+https://cdn16.163189.xyz/163189/cwjd
+#EXTINF:-1 tvg-name="TVB武侠" group-title="港台频道",TVB武侠 [1280x720](112ms)
+http://cdn6.163189.xyz/163189/yzwx
+#EXTINF:-1 tvg-name="TVB星河" group-title="港台频道",TVB星河 [1280x720](33ms)
+https://cdn6.163189.xyz/163189/tvbxh
+#EXTINF:-1 tvg-name="TVB星河" group-title="港台频道",TVB星河 [1920x1080](107ms)
+https://o11.163189.xyz/stream/live/tvbxh/
+#EXTINF:-1 tvg-name="TVB星河" group-title="港台频道",TVB星河 [1920x1080](141ms)
+https://o11.163189.xyz/stream/live/tvbxh/
+#EXTINF:-1 tvg-name="TVB Plus" group-title="港台频道",TVB Plus [1920x1080](29ms)
+https://o11.163189.xyz/stream/tvb/tvbp/
+#EXTINF:-1 tvg-name="TVB Plus" group-title="港台频道",TVB Plus [1920x1080](127ms)
+https://o11.163189.xyz/stream/tvb/tvbp/
+#EXTINF:-1 tvg-name="千禧经典" group-title="地方频道",千禧经典 [1920x1080](138ms)
+https://o11.163189.xyz/stream/live/tvbc/
+#EXTINF:-1 tvg-name="天映频道" group-title="地方频道",天映频道 [1920x1080](144ms)
+https://o11.163189.xyz/stream/live/typd/
+#EXTINF:-1 tvg-name="HOY77" group-title="地方频道",HOY77 [1920x1080](80ms)
+https://cdn6.163189.xyz/163189/hoy
+#EXTINF:-1 tvg-name="HOY77" group-title="地方频道",HOY77 [1920x1080](110ms)
+http://cdn6.163189.xyz/163189/hoy
+#EXTINF:-1 tvg-name="HOY77" group-title="地方频道",HOY77 [1920x1080](464ms)
+https://cdn.163189.xyz/163189/hoy
+#EXTINF:-1 tvg-name="HOY78" group-title="地方频道",HOY78 [1920x1080](31ms)
+https://cdn.163189.xyz/163189/hoy78
+#EXTINF:-1 tvg-name="HOY78" group-title="地方频道",HOY78 [1920x1080](70ms)
+http://cdn.163189.xyz/163189/hoy78
+#EXTINF:-1 tvg-name="RTHK 32" group-title="地方频道",RTHK 32 [1920x1080](85ms)
+http://cdn.163189.xyz/163189/rthk32
+#EXTINF:-1 tvg-name="ASTRO爱奇艺" group-title="地方频道",ASTRO爱奇艺 [1920x1080](131ms)
+https://o11.163189.xyz/stream/live/iqiyi/
+#EXTINF:-1 tvg-name="ViuTV" group-title="地方频道",ViuTV [1920x1080](163ms)
+https://cdn.163189.xyz/163189/viu
+#EXTINF:-1 tvg-name="邵氏动作" group-title="地方频道",邵氏动作 [1920x814](2008ms)
+http://feilong123.vip/409990236/tv.php?id=ssdz
+#EXTINF:-1 tvg-name="邵氏电影" group-title="地方频道",邵氏电影 [1920x818](2012ms)
+http://feilong123.vip/409990236/tv.php?id=ssdy
+#EXTINF:-1 tvg-name="邵氏武侠" group-title="地方频道",邵氏武侠 [1920x1080](1996ms)
+http://feilong123.vip/409990236/tv.php?id=sswx
+#EXTINF:-1 tvg-name="邵氏喜剧" group-title="地方频道",邵氏喜剧 [1920x820](1902ms)
+http://feilong123.vip/409990236/tv.php?id=ssxj
+#EXTINF:-1 tvg-name="HBO喜剧" group-title="欧美经典",HBO喜剧 [1920x1080](175ms)
+http://23.237.104.106:8080/USA_HBO_COMEDY/tracks-v1a1/mono.m3u8
+#EXTINF:-1 tvg-name="HBO" group-title="欧美经典",HBO [1920x1080](207ms)
+http://23.237.104.106:8080/USA_HBO/tracks-v1a1/mono.m3u8
+#EXTINF:-1 tvg-name="CN卡通" group-title="地方频道",CN卡通 [1920x1080](168ms)
+http://23.237.104.106:8080/USA_CARTOON_NETWORK/tracks-v1a1/mono.m3u8
+#EXTINF:-1 tvg-name="LMN" group-title="地方频道",LMN [1920x1080](170ms)
+http://23.237.104.106:8080/USA_LMN/tracks-v1a1/mono.m3u8
+#EXTINF:-1 tvg-name="HBO精选" group-title="欧美经典",HBO精选 [1920x1080](198ms)
+http://23.237.104.106:8080/USA_HBO2/tracks-v1a1/mono.m3u8
+#EXTINF:-1 tvg-name="Cinemax精选" group-title="地方频道",Cinemax精选 [1920x1080](207ms)
+http://23.237.104.106:8080/USA_MOREMAX/mono.m3u8
+#EXTINF:-1 tvg-name="Cinemax" group-title="地方频道",Cinemax [1920x1080](182ms)
+http://23.237.104.106:8080/USA_CINEMAX/tracks-v1a1/mono.m3u8
+#EXTINF:-1 tvg-name="HBO王牌" group-title="欧美经典",HBO王牌 [1920x1080](113ms)
+http://23.237.104.106:8080/USA_HBO_ZONE/tracks-v1a1/mono.m3u8
+#EXTINF:-1 tvg-name="看东方4K" group-title="地方频道",看东方4K [1920x1080](649ms)
+http://bp-resource-dfl.bestv.cn/148/3/video.m3u8
+#EXTINF:-1 tvg-name="苏州4K" group-title="地方频道",苏州4K [3840x2160](1248ms)
+https://live-auth.51kandianshi.com/szgd/csztv4k_4k.m3u8
+#EXTINF:-1 tvg-name="广州影视" group-title="地方频道",广州影视 [1920x1080](53ms)
+http://r.jdshipin.com/sFw4S
+#EXTINF:-1 tvg-name="广州综合" group-title="地方频道",广州综合 [1280x720](969ms)
+https://tencentplaygsm.gztv.com/live/zonghes.m3u8?txTime=65797c44&amp%3BtxSecret=7e4590b2320037d7ce49ce9eac2dd6c0
+#EXTINF:-1 tvg-name="广州综合" group-title="地方频道",广州综合 [1280x720](1038ms)
+https://cdn16.163189.xyz/163189/gzzh
+#EXTINF:-1 tvg-name="南国都市" group-title="地方频道",南国都市 [1920x1080](885ms)
+https://tencentplay.gztv.com/live/nanguodushi.m3u8?txSecret=550af55c0ea34ce492748481415b6dfa&txTime=1903e7b17de
+#EXTINF:-1 tvg-name="苏州娱乐" group-title="地方频道",苏州娱乐 [1280x720](1067ms)
+https://live-auth.51kandianshi.com/szgd/csztv4.m3u8
+#EXTINF:-1 tvg-name="云南都市" group-title="地方频道",云南都市 [1280x720](1472ms)
+https://hwapi.yntv.net/62hdvf/rjwt14.m3u8
+#EXTINF:-1 tvg-name="云南娱乐" group-title="地方频道",云南娱乐 [1280x720](1422ms)
+https://hwapi.yntv.net/62hdvf/q9vs1b.m3u8
+#EXTINF:-1 tvg-name="新闻综合" group-title="地方频道",新闻综合 [1920x1080](875ms)
+http://play1-qk.nmtv.cn/live/2316general.m3u8
+#EXTINF:-1 tvg-name="经济生活" group-title="地方频道",经济生活 [1920x1080](877ms)
+http://play1-qk.nmtv.cn/live/2326general.m3u8
+#EXTINF:-1 tvg-name="少儿频道" group-title="地方频道",少儿频道 [1920x1080](872ms)
+http://play1-qk.nmtv.cn/live/2327general.m3u8
+#EXTINF:-1 tvg-name="文体娱乐" group-title="地方频道",文体娱乐 [1920x1080](648ms)
+http://play1-qk.nmtv.cn/live/2319general.m3u8
+#EXTINF:-1 tvg-name="农牧频道" group-title="地方频道",农牧频道 [1920x1080](637ms)
+http://play1-qk.nmtv.cn/live/2329general.m3u8
+#EXTINF:-1 tvg-name="梨园频道" group-title="地方频道",梨园频道 [1920x1080](930ms)
+https://dxtx.hntv.tv/live/lypd.m3u8?txSecret=10c771842a0be59e8b575d765173ec96&txTime=7B923E0A&wsSecret=1966aa8a0405e1541cff782f56c75447&wsTime=1770400669
+#EXTINF:-1 tvg-name="文物宝库" group-title="地方频道",文物宝库 [1920x1080](967ms)
+https://dxtx.hntv.tv/live/wwbk.m3u8?txSecret=317b89626134fd6bea6e129455b5ff18&txTime=7C4C635C&wsSecret=87c5daf4f4c3a09fb4e4cce0843d4a1c&wsTime=1770400669
+#EXTINF:-1 tvg-name="武术频道" group-title="地方频道",武术频道 [1920x1080](900ms)
+https://dxtx.hntv.tv/live/wssj.m3u8?txSecret=c38b4d31ba4c45c6babb5c47132123e3&txTime=7ABB976A&wsSecret=dfcdc24ac8a49ebd886337dc5cdc1568&wsTime=1770400669
+#EXTINF:-1 tvg-name="河南曲艺" group-title="地方频道",河南曲艺 [1920x1080](823ms)
+https://dxtx.hntv.tv/live/jczy.m3u8?txSecret=e785008e49564e5e738439b4dd2ae68e&txTime=7C4C6207&wsSecret=3f9e1d6e5c78cea99a876ce40f13202b&wsTime=1770400669
+#EXTINF:-1 tvg-name="移动戏曲" group-title="地方频道",移动戏曲 [1920x1080](872ms)
+https://dxtx.hntv.tv/live/ydxq.m3u8?txSecret=caad41b421fdab7fa0dfbaf96f59f9f0&txTime=7B2E515F&wsSecret=b2484c40280981b4050b148e22943b0e&wsTime=1770400669
+#EXTINF:-1 tvg-name="RTHK33" group-title="地方频道",RTHK33 [1920x1080](81ms)
+https://cdn6.163189.xyz/163189/cctv1
+#EXTINF:-1 tvg-name="CCTV13" group-title="央视频道",CCTV13 [1920x1080](220ms)
+https://cdn10.163189.xyz/163189/cctv13/
+#EXTINF:-1 tvg-name="Now新聞台" group-title="地方频道",Now新聞台 [1920x1080](68ms)
+https://cdn.163189.xyz/163189/now
+#EXTINF:-1 tvg-name="RTHK31" group-title="地方频道",RTHK31 [1920x1080](258ms)
+https://cdn.163189.xyz/163189/rthk31
+#EXTINF:-1 tvg-name="RTHK32" group-title="地方频道",RTHK32 [1920x1080](77ms)
+https://cdn.163189.xyz/163189/rthk32
+#EXTINF:-1 tvg-name="澳视卫星" group-title="地方频道",澳视卫星 [1920x1080](25ms)
+https://cdn6.163189.xyz/163189/as
+#EXTINF:-1 tvg-name="澳视体育" group-title="地方频道",澳视体育 [1920x1080](34ms)
+https://cdn6.163189.xyz/163189/amty
+#EXTINF:-1 tvg-name="澳视综艺" group-title="地方频道",澳视综艺 [1920x1080](73ms)
+https://cdn6.163189.xyz/163189/amzy
+#EXTINF:-1 tvg-name="TVB1" group-title="港台频道",TVB1 [1920x1080](80ms)
+https://cdn6.163189.xyz/163189/tvb1
+#EXTINF:-1 tvg-name="TVBJ1" group-title="港台频道",TVBJ1 [1920x1080](87ms)
+https://cdn6.163189.xyz/163189/j1
+#EXTINF:-1 tvg-name="翡翠剧集台" group-title="港台频道",翡翠剧集台 [1920x1080](75ms)
+https://cdn6.163189.xyz/163189/tvbd
+#EXTINF:-1 tvg-name="广东体育" group-title="地方频道",广东体育 [1920x1080](24ms)
+https://cdn2.163189.xyz/163189/gdty
+#EXTINF:-1 tvg-name="Channel 5" group-title="地方频道",Channel 5 [1920x1080](68ms)
+https://cdn6.163189.xyz/163189/ch5
+#EXTINF:-1 tvg-name="Channel 8" group-title="地方频道",Channel 8 [1920x1080](72ms)
+https://cdn6.163189.xyz/163189/ch8
+#EXTINF:-1 tvg-name="Channel U" group-title="地方频道",Channel U [1920x1080](79ms)
+https://cdn6.163189.xyz/163189/chu
+#EXTINF:-1 tvg-name="龍華電影" group-title="地方频道",龍華電影 [1920x1080](43ms)
+https://cdn8.163189.xyz/163189/lhdy
+#EXTINF:-1 tvg-name="龍華經典" group-title="地方频道",龍華經典 [1920x1080](47ms)
+https://cdn8.163189.xyz/163189/lhjd
+#EXTINF:-1 tvg-name="龍華偶像" group-title="地方频道",龍華偶像 [1920x1080](126ms)
+https://cdn8.163189.xyz/163189/lhox
+#EXTINF:-1 tvg-name="龍華日韓" group-title="地方频道",龍華日韓 [1920x1080](74ms)
+https://cdn8.163189.xyz/163189/lhrh
+#EXTINF:-1 tvg-name="龍華戲劇" group-title="地方频道",龍華戲劇 [1920x1080](332ms)
+https://cdn8.163189.xyz/163189/lhxj
+#EXTINF:-1 tvg-name="龍華洋片" group-title="地方频道",龍華洋片 [1920x1080](334ms)
+https://cdn8.163189.xyz/163189/lhyp
+#EXTINF:-1 tvg-name="龍華卡通" group-title="地方频道",龍華卡通 [1280x720](327ms)
+https://cdn8.163189.xyz/163189/lhkt
+#EXTINF:-1 tvg-name="金光布袋戲" group-title="地方频道",金光布袋戲 [1920x1080](156ms)
+https://o11.163189.xyz/stream/live/jgbdx/
+#EXTINF:-1 tvg-name="TVB Jade HD" group-title="港台频道",TVB Jade HD [1280x720](41ms)
+https://cdn6.163189.xyz/163189/hlfct
+#EXTINF:-1 tvg-name="TVB Jade HD" group-title="港台频道",TVB Jade HD [1920x1080](101ms)
+https://o11.163189.xyz/stream/live/hlt/
+#EXTINF:-1 tvg-name="TVB Jade HD" group-title="港台频道",TVB Jade HD [1920x1080](102ms)
+https://cdn6.163189.xyz/163189/jade
+#EXTINF:-1 tvg-name="TVB亚洲武侠" group-title="港台频道",TVB亚洲武侠 [1280x720](31ms)
+https://cdn6.163189.xyz/163189/yzwx
+#EXTINF:-1 tvg-name="娛樂新聞台" group-title="地方频道",娛樂新聞台 [1920x1080](96ms)
+https://cdn6.163189.xyz/163189/ylxw
+#EXTINF:-1 tvg-name="海峡卫视" group-title="卫视频道",海峡卫视 [640x360](207ms)
+https://cdn10.163189.xyz/163189/hxws/
+#EXTINF:-1 tvg-name="天映新加坡" group-title="地方频道",天映新加坡 [1280x720](222ms)
+https://cdn10.163189.xyz/163189/typd/
+#EXTINF:-1 tvg-name="AOD" group-title="地方频道",AOD [1920x1080](103ms)
+https://o11.163189.xyz/stream/live/aod/
+#EXTINF:-1 tvg-name="AEC" group-title="地方频道",AEC [1920x1080](110ms)
+https://o11.163189.xyz/stream/live/aec/
+#EXTINF:-1 tvg-name="HUA HEE DAI" group-title="地方频道",HUA HEE DAI [1920x1080](123ms)
+https://o11.163189.xyz/stream/live/hxt/
+#EXTINF:-1 tvg-name="iQIYI" group-title="地方频道",iQIYI [1920x1080](105ms)
+https://o11.163189.xyz/stream/live/iqiyi/
+#EXTINF:-1 tvg-name="天映马来西亚" group-title="地方频道",天映马来西亚 [1920x1080](106ms)
+https://o11.163189.xyz/stream/live/typd/
+#EXTINF:-1 tvg-name="天映经典" group-title="地方频道",天映经典 [1920x1080](57ms)
+https://o11.163189.xyz/stream/live/ccm/
+#EXTINF:-1 tvg-name="千禧經典台" group-title="地方频道",千禧經典台 [1920x1080](134ms)
+https://o11.163189.xyz/stream/live/tvbc/
+#EXTINF:-1 tvg-name="CCTV1" group-title="央视频道",CCTV1 [1920x1080](741ms)
+https://php.jdshipin.com/TVOD/iptv.php?id=cctv1
+#EXTINF:-1 tvg-name="CCTV2" group-title="央视频道",CCTV2 [1920x1080](648ms)
+https://php.jdshipin.com/TVOD/iptv.php?id=cctv2
+#EXTINF:-1 tvg-name="CCTV3" group-title="央视频道",CCTV3 [1920x1080](535ms)
+https://php.jdshipin.com/TVOD/iptv.php?id=cctv3
+#EXTINF:-1 tvg-name="CCTV4" group-title="央视频道",CCTV4 [1920x1080](753ms)
+https://php.jdshipin.com/TVOD/iptv.php?id=cctv4
+#EXTINF:-1 tvg-name="CCTV5" group-title="央视频道",CCTV5 [1920x1080](400ms)
+https://cdn16.163189.xyz/163189/cctv5-2
+#EXTINF:-1 tvg-name="CCTV5" group-title="央视频道",CCTV5 [1920x1080](498ms)
+https://php.jdshipin.com/TVOD/iptv.php?id=cctv5
+#EXTINF:-1 tvg-name="CCTV5+" group-title="央视频道",CCTV5+ [1920x1080](212ms)
+https://cdn16.163189.xyz/163189/cctv5p-2
+#EXTINF:-1 tvg-name="CCTV5+" group-title="央视频道",CCTV5+ [1280x720](511ms)
+https://php.jdshipin.com/TVOD/iptv.php?id=cctv5p
+#EXTINF:-1 tvg-name="CCTV6" group-title="央视频道",CCTV6 [1920x1080](504ms)
+https://php.jdshipin.com/TVOD/iptv.php?id=cctv6
+#EXTINF:-1 tvg-name="CCTV7" group-title="央视频道",CCTV7 [1920x1080](659ms)
+https://php.jdshipin.com/TVOD/iptv.php?id=cctv7
+#EXTINF:-1 tvg-name="CCTV8" group-title="央视频道",CCTV8 [1920x1080](615ms)
+https://php.jdshipin.com/TVOD/iptv.php?id=cctv8
+#EXTINF:-1 tvg-name="CCTV9" group-title="央视频道",CCTV9 [1280x720](462ms)
+https://php.jdshipin.com/TVOD/iptv.php?id=cctv9
+#EXTINF:-1 tvg-name="CCTV10" group-title="央视频道",CCTV10 [1280x720](588ms)
+https://php.jdshipin.com/TVOD/iptv.php?id=cctv10
+#EXTINF:-1 tvg-name="CCTV11" group-title="央视频道",CCTV11 [1920x1080](674ms)
+https://php.jdshipin.com/TVOD/iptv.php?id=cctv11
+#EXTINF:-1 tvg-name="CCTV12" group-title="央视频道",CCTV12 [1920x1080](533ms)
+https://php.jdshipin.com/TVOD/iptv.php?id=cctv12
+#EXTINF:-1 tvg-name="CCTV14" group-title="央视频道",CCTV14 [1920x1080](698ms)
+https://php.jdshipin.com/TVOD/iptv.php?id=cctv14
+#EXTINF:-1 tvg-name="CCTV15" group-title="央视频道",CCTV15 [1280x720](572ms)
+https://php.jdshipin.com/TVOD/iptv.php?id=cctv15
+#EXTINF:-1 tvg-name="CCTV16" group-title="央视频道",CCTV16 [1920x1080](370ms)
+https://cdn16.163189.xyz/163189/cctv16-2
+#EXTINF:-1 tvg-name="CCTV16" group-title="央视频道",CCTV16 [1920x1080](609ms)
+https://php.jdshipin.com/TVOD/iptv.php?id=cctv16
+#EXTINF:-1 tvg-name="CCTV17" group-title="央视频道",CCTV17 [1920x1080](591ms)
+https://php.jdshipin.com/TVOD/iptv.php?id=cctv17
+#EXTINF:-1 tvg-name="广州新闻" group-title="地方频道",广州新闻 [1280x720](1334ms)
+https://cdn16.163189.xyz/163189/gzxw
+#EXTINF:-1 tvg-name="五星体育" group-title="地方频道",五星体育 [1920x1080](436ms)
+https://cdn15.163189.xyz/163189/wxty
