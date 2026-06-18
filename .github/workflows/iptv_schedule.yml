@@ -1,45 +1,156 @@
-name: Daily IPTV Automated Sync
+import os
+import re
 
-on:
-  schedule:
-    # 国际标准时间 00:00 对应北京时间早上 08:00
-    - cron: '0 0 * * *'
-  workflow_dispatch:
+# ==========================================
+# 1. 配置区：多级排序权重定义
+# ==========================================
 
-jobs:
-  build_and_run:
-    runs-on: ubuntu-latest
+# 大类优先级：数字越小越靠前
+CATEGORY_WEIGHT = {
+    "央视": 10,
+    "卫视": 20,
+    "地方台": 30,
+    "港台": 40,
+    "欧美": 50,
+    "成人": 60
+}
 
-    steps:
-    - name: Checkout Private Repo
-      uses: actions/checkout@v4
-      with:
-        persist-credentials: true
+# 地方台省份优先级：按照你的习惯排序
+PROVINCE_WEIGHT = {
+    "北京": 1, "上海": 2, "天津": 3, "重庆": 4,
+    "广东": 5, "浙江": 6, "江苏": 7, "山东": 8,
+    "四川": 9, "湖南": 10, "湖北": 11, "福建": 12,
+    "安徽": 13, "江西": 14, "河南": 15, "河北": 16,
+    "山西": 17, "陕西": 18, "黑龙江": 19, "吉林": 20,
+    "辽宁": 21, "云南": 22, "贵州": 23, "广西": 24,
+    "海南": 25, "内蒙古": 26, "甘肃": 27, "宁夏": 28,
+    "青海": 29, "新疆": 30, "西藏": 31
+}
 
-    - name: Install System FFmpeg
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y ffmpeg
+# 常见地级市自动映射到省份，提高地方台排序的精准度
+CITY_MAPPING = {
+    "广州": "广东", "深圳": "广东", "杭州": "浙江", "宁波": "浙江",
+    "温州": "浙江", "南京": "江苏", "苏州": "江苏", "无锡": "江苏",
+    "成都": "四川", "武汉": "湖北", "济南": "山东", "青岛": "山东",
+    "厦门": "福建", "福州": "福建", "泉州": "福建", "长沙": "湖南", 
+    "郑州": "河南", "合肥": "安徽", "南昌": "江西", "哈尔滨": "黑龙江", 
+    "长春": "吉林", "沈阳": "辽宁", "大连": "辽宁", "昆明": "云南", 
+    "贵阳": "贵州", "南宁": "广西", "海口": "海南", "呼和浩特": "内蒙古", 
+    "兰州": "甘肃", "银川": "宁夏", "西宁": "青海", "乌鲁木齐": "新疆", 
+    "拉萨": "西藏"
+}
 
-    - name: Set up Python Environment
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
+# ==========================================
+# 2. 核心功能函数
+# ==========================================
 
-    - name: Install Python Dependencies
-      run: |
-        pip install aiohttp requests beautifulsoup4
+def parse_m3u(file_path):
+    """解析现有的 M3U 文件为字典列表"""
+    channels = []
+    if not os.path.exists(file_path):
+        return channels
+        
+    with open(file_path, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
 
-    - name: Run IPTV Pipeline Script
-      env:
-        TG_API_ID: ${{ secrets.TG_API_ID }}
-        TG_API_HASH: ${{ secrets.TG_API_HASH }}
-      run: |
-        python update_iptv.py
+    current_channel = {}
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+            
+        if line.startswith('#EXTINF:'):
+            # 提取 group-title
+            group_match = re.search(r'group-title="([^"]+)"', line)
+            current_channel['group'] = group_match.group(1) if group_match else '未分类'
+            
+            # 提取频道名称 (逗号后面的最后一部分)
+            name_split = line.split(',')
+            current_channel['name'] = name_split[-1].strip() if len(name_split) > 1 else '未知频道'
+            
+            # 保存原始的 EXTINF 行信息
+            current_channel['extinf'] = line
+            
+        elif line.startswith('http'):
+            current_channel['url'] = line
+            if 'name' in current_channel and 'url' in current_channel:
+                channels.append(current_channel)
+            # 重置字典，准备读取下一个频道
+            current_channel = {}
+            
+    return channels
 
-    - name: Commit and Push to Private Repo
-      run: |
-        git config --global user.name "Actions-Bot"
-        git config --global user.email "actions@github.com"
-        git add live.m3u
-        git diff --quiet && git diff --staged --quiet || (git commit -m "☀️ Daily Auto Update: $(date +'%Y-%m-%d %H:%M:%S')" && git push)
+def get_sort_key(channel):
+    """生成排序标识元组：(大类权重, 省份权重, 格式化后的频道名)"""
+    group = channel.get('group', '')
+    name = channel.get('name', '')
+    
+    # 1. 匹配大类权重 (默认放到最后 99)
+    cat_weight = 99
+    for key, weight in CATEGORY_WEIGHT.items():
+        if key in group or key in name:
+            cat_weight = weight
+            break
+            
+    # 2. 匹配省份权重 (仅对地方台或未归类处理)
+    prov_weight = 999
+    if cat_weight == 30 or cat_weight == 99:
+        # 尝试匹配省份名
+        for prov, weight in PROVINCE_WEIGHT.items():
+            if prov in name or prov in group:
+                prov_weight = weight
+                break
+                
+        # 如果没匹配到省份，尝试匹配地级市并转化
+        if prov_weight == 999:
+            for city, prov in CITY_MAPPING.items():
+                if city in name or city in group:
+                    prov_weight = PROVINCE_WEIGHT[prov]
+                    break
+
+    # 3. 频道名称数字补零 (保证 CCTV-2 排在 CCTV-10 前面)
+    # 将字符串中的数字提取出来并补齐到 3 位，例如 CCTV-1 变为 CCTV-001
+    sort_name = re.sub(r'\d+', lambda x: x.group().zfill(3), name)
+
+    return (cat_weight, prov_weight, sort_name)
+
+def write_m3u(channels, output_path):
+    """将排序好的频道列表重新写回 M3U 文件"""
+    with open(output_path, 'w', encoding='utf-8') as f:
+        # 写入 M3U 头部，可根据需要保留 EPG 接口信息
+        f.write('#EXTM3U x-tvg-url="https://live.fanmingming.com/e.xml"\n')
+        for c in channels:
+            f.write(f"{c['extinf']}\n")
+            f.write(f"{c['url']}\n")
+
+# ==========================================
+# 3. 脚本主入口
+# ==========================================
+
+def main():
+    # ----------------------------------------------------
+    # 在这里保留你原本的自动抓取、解析频道的代码逻辑
+    # 假设你的爬虫部分执行完毕后，已经生成了一个未排序的 live.m3u
+    # ----------------------------------------------------
+    
+    file_name = 'live.m3u'
+    print("-> 开始读取并解析现有的频道数据...")
+    
+    channels = parse_m3u(file_name)
+    
+    if not channels:
+        print(f"-> 警告: {file_name} 为空或不存在，请检查爬虫是否成功获取数据。")
+        return
+        
+    print(f"-> 共载入 {len(channels)} 个频道，开始执行多级权重排序...")
+    
+    # 核心：执行排序
+    channels.sort(key=get_sort_key)
+    
+    # 覆写文件
+    write_m3u(channels, file_name)
+    
+    print("-> 🎉 排序完成！数据已更新至 live.m3u")
+
+if __name__ == "__main__":
+    main()
