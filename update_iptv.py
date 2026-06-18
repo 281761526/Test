@@ -32,6 +32,7 @@ RAW_SOURCES_URLS = [
 # ==================== TG群组配置区域 ====================
 TG_CHANNELS = [
     "kevinmejo", 
+    "AptvPlayer",
     "Player_Ku9", 
     "tvzby", 
     "iptvofficalgroup",
