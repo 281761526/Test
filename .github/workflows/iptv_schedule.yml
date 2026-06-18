@@ -4,37 +4,32 @@ on:
   schedule:
     # 国际标准时间 00:00 对应北京时间早上 08:00
     - cron: '0 0 * * *'
-  workflow_dispatch: # 允许你在 GitHub 网页端手动点击按钮随时触发运行
+  workflow_dispatch:
 
 jobs:
   build_and_run:
     runs-on: ubuntu-latest
 
     steps:
-    # 第一步：拉取仓库代码到当前虚拟机
     - name: Checkout Private Repo
       uses: actions/checkout@v4
       with:
         persist-credentials: true
 
-    # 第二步：安装系统级 FFmpeg 依赖（用于 ffprobe 深度检测流）
     - name: Install System FFmpeg
       run: |
         sudo apt-get update
         sudo apt-get install -y ffmpeg
 
-    # 第三步：配置 Python 环境
     - name: Set up Python Environment
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
-    # 第四步：安装 Python 脚本所需的依赖库
     - name: Install Python Dependencies
       run: |
         pip install aiohttp requests beautifulsoup4
 
-    # 第五步：运行你的 Python 核心脚本，并传入 Telegram 密钥
     - name: Run IPTV Pipeline Script
       env:
         TG_API_ID: ${{ secrets.TG_API_ID }}
@@ -42,11 +37,9 @@ jobs:
       run: |
         python update_iptv.py
 
-    # 第六步：将更新后的 live.m3u 自动提交并推送到你的私人仓库
     - name: Commit and Push to Private Repo
       run: |
         git config --global user.name "Actions-Bot"
         git config --global user.email "actions@github.com"
         git add live.m3u
-        # 检查文件是否有实际改动，避免在无新内容时报错停止
         git diff --quiet && git diff --staged --quiet || (git commit -m "☀️ Daily Auto Update: $(date +'%Y-%m-%d %H:%M:%S')" && git push)
