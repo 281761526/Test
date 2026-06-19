@@ -41,19 +41,18 @@ TG_CHANNELS = [
     "iptvofficalgroup",
 ]
 
-OUTPUT_FILE = "live.m3u"
+OUTPUT_M3U = "live.m3u"
+OUTPUT_TXT = "live.txt"  # 自动生成支持 # 号合并的 TVBox 专用格式
 MAX_CONCURRENT_TASKS = 40  
 MAX_RETAIN_PER_CHANNEL = 5 
 
-# 读取安全环境变量
 TG_API_ID = os.environ.get("TG_API_ID")
 TG_API_HASH = os.environ.get("TG_API_HASH")
 TG_SESSION = os.environ.get("TG_SESSION")
 
-# ==================== 2. 精准排序权重配置区 ====================
+# ==================== 2. 精准排序权重与地市字典 ====================
 CATEGORY_WEIGHT = {
     "央视频道": 10, "卫视频道": 20, 
-    # 地方省份频道的权重动态分配为 30
     "体育频道": 31, "电影频道": 32, "电视剧频道": 33, 
     "少儿频道": 34, "纪录频道": 35, "音乐频道": 36,
     "港台频道": 40, "日本频道": 50, "韩国频道": 60,
@@ -68,39 +67,40 @@ PROVINCE_WEIGHT = {
     "海南": 25, "内蒙古": 26, "甘肃": 27, "宁夏": 28, "青海": 29, "新疆": 30, "西藏": 31
 }
 
+# 深度扩充地级市与别名映射，防止地方台流失到"其他频道"
 CITY_MAPPING = {
-    "广州": "广东", "深圳": "广东", "杭州": "浙江", "宁波": "浙江", "温州": "浙江", "南京": "江苏", 
-    "苏州": "江苏", "无锡": "江苏", "成都": "四川", "武汉": "湖北", "济南": "山东", "青岛": "山东",
-    "厦门": "福建", "福州": "福建", "泉州": "福建", "长沙": "湖南", "郑州": "河南", "合肥": "安徽", 
-    "南昌": "江西", "哈尔滨": "黑龙江", "长春": "吉林", "沈阳": "辽宁", "大连": "辽宁", "昆明": "云南", 
-    "贵阳": "贵州", "南宁": "广西", "海口": "海南", "呼和浩特": "内蒙古", "兰州": "甘肃", "银川": "宁夏", 
-    "西宁": "青海", "乌鲁木齐": "新疆", "拉萨": "西藏"
+    "广州": "广东", "深圳": "广东", "珠海": "广东", "汕头": "广东", "佛山": "广东", "东莞": "广东",
+    "杭州": "浙江", "宁波": "浙江", "温州": "浙江", "绍兴": "浙江", "金华": "浙江", "嘉兴": "浙江",
+    "南京": "江苏", "苏州": "江苏", "无锡": "江苏", "徐州": "江苏", "常州": "江苏", "南通": "江苏",
+    "成都": "四川", "绵阳": "四川", "武汉": "湖北", "宜昌": "湖北", "襄阳": "湖北",
+    "济南": "山东", "青岛": "山东", "烟台": "山东", "潍坊": "山东", "威海": "山东",
+    "厦门": "福建", "福州": "福建", "泉州": "福建", "漳州": "福建",
+    "长沙": "湖南", "株洲": "湖南", "郑州": "河南", "洛阳": "河南", "合肥": "安徽", "芜湖": "安徽",
+    "南昌": "江西", "赣州": "江西", "哈尔滨": "黑龙江", "大庆": "黑龙江", 
+    "长春": "吉林", "沈阳": "辽宁", "大连": "辽宁", "昆明": "云南", 
+    "贵阳": "贵州", "南宁": "广西", "桂林": "广西", "海口": "海南", "三亚": "海南",
+    "呼和浩特": "内蒙古", "包头": "内蒙古", "兰州": "甘肃", "银川": "宁夏", 
+    "西宁": "青海", "乌鲁木齐": "新疆", "拉萨": "西藏", "BTV": "北京", "兵团": "新疆"
 }
 
 # ==================== 3. 核心清洗与排序函数 ====================
 def standardize_name(name):
-    """超级名称清洗：将乱七八糟的后缀剥离，强制统一格式"""
     name = name.upper()
     noise_words = ['HD', 'FHD', 'SD', '1080P', '4K', '8K', '高清', '超清', '标清', '蓝光', '频道', '综合', '测试', '线路', 'VIP']
     for word in noise_words:
         name = name.replace(word, '')
-        
     name = re.sub(r'[\s\-_\[\]\(\)（）【】]', '', name)
-    
     cctv_match = re.search(r'(CCTV|中央)(\d+\+?)', name)
     if cctv_match: return f"CCTV-{cctv_match.group(2)}"
-        
     if "卫视" in name:
         weishi_match = re.search(r'(.{2,4}卫视)', name)
         if weishi_match: return weishi_match.group(1)
-            
     return name
 
 def get_group_title(name):
-    """智能分类引擎：支持垂直主题、多国地区与省份独立建组"""
     name_upper = name.upper()
     
-    # 1. 成人过滤器 (最高优先级)
+    # 1. 绝对优先：成人频道过滤器
     adult_keywords = [
         "ADULT", "XXX", "18+", "AV", "HENTAI", "PORN", "SUTRA",
         "松视", "麻豆", "潘多", "潘朵", "彩虹", "惊艳", "香蕉", 
@@ -110,11 +110,17 @@ def get_group_title(name):
     ]
     if any(x in name_upper for x in adult_keywords): return "成人频道"
         
-    # 2. 国内核心频道
+    # 2. 央视与卫视
     if "CCTV" in name_upper or "中央" in name_upper: return "央视频道"
     if "卫视" in name_upper: return "卫视频道"
+
+    # 3. 地方频道优先提取 (放在主题频道前面，防止"北京影视"被划归为电影频道)
+    for prov in PROVINCE_WEIGHT.keys():
+        if prov in name_upper: return f"{prov}频道"
+    for city, prov in CITY_MAPPING.items():
+        if city in name_upper: return f"{prov}频道"
     
-    # 3. 垂直主题频道
+    # 4. 垂直主题频道
     if any(x in name_upper for x in ["电影", "影院", "影迷", "MOVIE", "CINEMA", "星影", "动作", "大片"]): return "电影频道"
     if any(x in name_upper for x in ["剧", "电视剧"]): return "电视剧频道"
     if any(x in name_upper for x in ["音乐", "MTV", "MUSIC", "KTV", "演唱会", "好声音"]): return "音乐频道"
@@ -122,19 +128,13 @@ def get_group_title(name):
     if any(x in name_upper for x in ["少儿", "动漫", "卡通", "动画", "CARTOON", "KIDS", "金鹰卡通", "炫动卡通"]): return "少儿频道"
     if any(x in name_upper for x in ["纪录", "纪实", "地理", "DISCOVERY", "NATIONAL", "HISTORY", "科教"]): return "纪录频道"
 
-    # 4. 国际与地区精准识别
+    # 5. 国际与地区识别
     if any(x in name_upper for x in ["TVB", "翡翠", "J2", "明珠", "星空", "凤凰", "纬来", "东森", "八大", "中天", "三立", "民视", "台视", "华视", "年代", "非凡", "香港", "台湾"]): return "港台频道"
     if any(x in name_upper for x in ["NHK", "FUJI", "TOKYO", "TBS", "WOWOW", "J-SPORTS", "JSPORTS", "NTV", "朝日", "日本", "JAPAN"]): return "日本频道"
     if any(x in name_upper for x in ["KBS", "SBS", "MBC", "TVN", "JTBC", "OCN", "MNET", "韩国", "KOREA"]): return "韩国频道"
     if any(x in name_upper for x in ["ASTRO", "STARHUB", "SINGAPORE", "MALAYSIA", "THAILAND", "新加坡", "大马", "马来西亚", "泰国", "CH3", "CH7", "8频道", "U频道"]): return "新马泰频道"
     if any(x in name_upper for x in ["HBO", "NETFLIX", "BBC", "CNN", "FOX", "SKY", "ESPN", "ABC", "NBC", "CBS", "美国", "英国", "USA", "UK"]): return "欧美频道"
     
-    # 5. 地方频道按省份兜底
-    for prov in PROVINCE_WEIGHT.keys():
-        if prov in name_upper: return f"{prov}频道"
-    for city, prov in CITY_MAPPING.items():
-        if city in name_upper: return f"{prov}频道"
-        
     return "其他频道"
 
 def custom_sort_key(item):
@@ -149,7 +149,8 @@ def custom_sort_key(item):
         prov_weight = PROVINCE_WEIGHT[prov_name]
                     
     sort_name = re.sub(r'\d+', lambda x: x.group().zfill(3), name)
-    return (cat_weight, prov_weight, sort_name, item["delay"])
+    # 取分组里测速最快的作为基准
+    return (cat_weight, prov_weight, sort_name, item.get("delay", 9999))
 
 def parse_content(text):
     results = []
@@ -239,7 +240,6 @@ async def fetch_github_search_sources():
             for repo in repos:
                 repo_name = repo["full_name"]
                 default_branch = repo["default_branch"]
-                print(f"   -> 🔍 锁定活跃仓库: {repo_name}")
                 
                 tree_url = f"https://api.github.com/repos/{repo_name}/git/trees/{default_branch}?recursive=1"
                 async with session.get(tree_url, headers=headers, timeout=10) as tree_res:
@@ -256,8 +256,7 @@ async def fetch_github_search_sources():
                                 text = await raw_res.text()
                                 collected.extend(parse_content(text))
                     except: pass
-        except Exception as e:
-            print(f"⚠️ GitHub 雷达运行异常: {e}")
+        except: pass
             
     return collected
 
@@ -316,6 +315,7 @@ async def main():
         
     valid_results = [r for r in results if r is not None]
     
+    # 将相同名称的频道收拢
     channel_dict = {}
     for r in valid_results:
         clean_name = standardize_name(r["name"])
@@ -323,16 +323,30 @@ async def main():
         channel_dict.setdefault(clean_name, []).append(r)
         
     final_list = []
+    
+    # 核心合并逻辑：将同一个频道的多个优质源提取并用 # 合并
     for name, sources in channel_dict.items():
         sources.sort(key=lambda x: x["delay"]) 
         group_title = get_group_title(name)
-        for s in sources[:MAX_RETAIN_PER_CHANNEL]:
-            s["group"] = group_title
-            final_list.append(s)
+        top_sources = sources[:MAX_RETAIN_PER_CHANNEL]
+        
+        # 用 # 号合并链接，这是 TVBox/DIYP 等软件最标准的聚合格式
+        merged_url = "#".join([s["url"] for s in top_sources])
+        best_delay = top_sources[0]["delay"]
+        best_res = top_sources[0]["res"]
+        
+        final_list.append({
+            "name": name,
+            "group": group_title,
+            "url": merged_url,
+            "delay": best_delay,
+            "res": best_res
+        })
             
     final_list.sort(key=custom_sort_key)
         
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+    # ================= 写入 M3U 文件 =================
+    with open(OUTPUT_M3U, "w", encoding="utf-8") as f:
         f.write('#EXTM3U x-tvg-url="http://epg.51zmt.top:801/api/diyp/"\n')
         for item in final_list:
             lock_tag = ' tvg-lock="1"' if item["group"] == "成人频道" else ""
@@ -340,7 +354,19 @@ async def main():
             f.write(f'#EXTINF:-1 tvg-name="{item["name"]}" group-title="{item["group"]}"{lock_tag},{display_name}\n')
             f.write(f'{item["url"]}\n')
             
-    print("\n🎉 自动化脚本全网抓取、深度洗澡及精准排序任务圆满完成！")
+    # ================= 写入 TXT 文件 (TVBox专属) =================
+    # 按分组对频道进行归类输出
+    txt_dict = {}
+    for item in final_list:
+        txt_dict.setdefault(item["group"], []).append(item)
+        
+    with open(OUTPUT_TXT, "w", encoding="utf-8") as f:
+        for group, items in txt_dict.items():
+            f.write(f"{group},#genre#\n")
+            for item in items:
+                f.write(f"{item['name']},{item['url']}\n")
+            
+    print("\n🎉 自动化脚本全网抓取、链接聚合(#)、精确洗澡及精准排序任务圆满完成！")
 
 if __name__ == "__main__":
     asyncio.run(main())
