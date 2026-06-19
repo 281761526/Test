@@ -6,6 +6,7 @@ import os
 import subprocess
 import time
 import requests
+import datetime
 from bs4 import BeautifulSoup
 from telethon import TelegramClient
 from telethon.sessions import StringSession
@@ -29,7 +30,6 @@ RAW_SOURCES_URLS = [
     "https://raw.githubusercontent.com/BigBigGrandG/IPTV-URL/release/Gather.m3u",
     "https://raw.githubusercontent.com/Kimentanm/aptv/master/m3u/iptv.m3u",
     "https://raw.githubusercontent.com/YanG-1989/m3u/main/Gather.m3u",
-    "https://raw.githubusercontent.com/pk0979/m3u-live/refs/heads/main/all.m3u",
 ]
 
 # ==================== TG群组配置区域 ====================
@@ -42,10 +42,10 @@ TG_CHANNELS = [
 ]
 
 OUTPUT_FILE = "live.m3u"
-MAX_CONCURRENT_TASKS = 40  # Actions 虚拟机并发检测数
-MAX_RETAIN_PER_CHANNEL = 5 # 每个频道保留的最优源数量
+MAX_CONCURRENT_TASKS = 40  
+MAX_RETAIN_PER_CHANNEL = 5 
 
-# 从 GitHub Secrets 读取 TG 环境变量
+# 读取安全环境变量
 TG_API_ID = os.environ.get("TG_API_ID")
 TG_API_HASH = os.environ.get("TG_API_HASH")
 TG_SESSION = os.environ.get("TG_SESSION")
@@ -53,7 +53,7 @@ TG_SESSION = os.environ.get("TG_SESSION")
 # ==================== 2. 精准排序权重配置区 ====================
 CATEGORY_WEIGHT = {
     "央视频道": 10, "卫视频道": 20, 
-    # 地方省份频道的权重会在 custom_sort_key 中动态分配为 30
+    # 地方省份频道的权重动态分配为 30
     "体育频道": 31, "电影频道": 32, "电视剧频道": 33, 
     "少儿频道": 34, "纪录频道": 35, "音乐频道": 36,
     "港台频道": 40, "日本频道": 50, "韩国频道": 60,
@@ -81,25 +81,18 @@ CITY_MAPPING = {
 def standardize_name(name):
     """超级名称清洗：将乱七八糟的后缀剥离，强制统一格式"""
     name = name.upper()
-    
-    # 1. 暴力剔除常见的无用后缀和分辨率标签
     noise_words = ['HD', 'FHD', 'SD', '1080P', '4K', '8K', '高清', '超清', '标清', '蓝光', '频道', '综合', '测试', '线路', 'VIP']
     for word in noise_words:
         name = name.replace(word, '')
         
-    # 2. 剔除所有特殊符号和空格 (此时 CCTV-1综合 会变成 CCTV1)
     name = re.sub(r'[\s\-_\[\]\(\)（）【】]', '', name)
     
-    # 3. 针对 CCTV 进行重新格式化 (提取 CCTV + 数字及可能的 + 号，如 CCTV5+)
     cctv_match = re.search(r'(CCTV|中央)(\d+\+?)', name)
-    if cctv_match:
-        return f"CCTV-{cctv_match.group(2)}"
+    if cctv_match: return f"CCTV-{cctv_match.group(2)}"
         
-    # 4. 针对卫视统一后缀处理 (防止出现 湖南卫视超清 -> 湖南卫视)
     if "卫视" in name:
         weishi_match = re.search(r'(.{2,4}卫视)', name)
-        if weishi_match:
-            return weishi_match.group(1)
+        if weishi_match: return weishi_match.group(1)
             
     return name
 
@@ -117,37 +110,26 @@ def get_group_title(name):
     ]
     if any(x in name_upper for x in adult_keywords): return "成人频道"
         
-    # 2. 国内核心频道 (国家队优先)
+    # 2. 国内核心频道
     if "CCTV" in name_upper or "中央" in name_upper: return "央视频道"
     if "卫视" in name_upper: return "卫视频道"
     
-    # 3. 垂直主题频道拦截
-    if any(x in name_upper for x in ["电影", "影院", "影迷", "MOVIE", "CINEMA", "星影", "动作", "大片"]): 
-        return "电影频道"
-    if any(x in name_upper for x in ["剧", "电视剧"]): 
-        return "电视剧频道"
-    if any(x in name_upper for x in ["音乐", "MTV", "MUSIC", "KTV", "演唱会", "好声音"]): 
-        return "音乐频道"
-    if any(x in name_upper for x in ["体育", "SPORTS", "足球", "NBA", "CBA", "台球", "高尔夫", "奥运"]): 
-        return "体育频道"
-    if any(x in name_upper for x in ["少儿", "动漫", "卡通", "动画", "CARTOON", "KIDS", "金鹰卡通", "炫动卡通"]): 
-        return "少儿频道"
-    if any(x in name_upper for x in ["纪录", "纪实", "地理", "DISCOVERY", "NATIONAL", "HISTORY", "科教"]): 
-        return "纪录频道"
+    # 3. 垂直主题频道
+    if any(x in name_upper for x in ["电影", "影院", "影迷", "MOVIE", "CINEMA", "星影", "动作", "大片"]): return "电影频道"
+    if any(x in name_upper for x in ["剧", "电视剧"]): return "电视剧频道"
+    if any(x in name_upper for x in ["音乐", "MTV", "MUSIC", "KTV", "演唱会", "好声音"]): return "音乐频道"
+    if any(x in name_upper for x in ["体育", "SPORTS", "足球", "NBA", "CBA", "台球", "高尔夫", "奥运"]): return "体育频道"
+    if any(x in name_upper for x in ["少儿", "动漫", "卡通", "动画", "CARTOON", "KIDS", "金鹰卡通", "炫动卡通"]): return "少儿频道"
+    if any(x in name_upper for x in ["纪录", "纪实", "地理", "DISCOVERY", "NATIONAL", "HISTORY", "科教"]): return "纪录频道"
 
     # 4. 国际与地区精准识别
-    if any(x in name_upper for x in ["TVB", "翡翠", "J2", "明珠", "星空", "凤凰", "纬来", "东森", "八大", "中天", "三立", "民视", "台视", "华视", "年代", "非凡", "香港", "台湾"]): 
-        return "港台频道"
-    if any(x in name_upper for x in ["NHK", "FUJI", "TOKYO", "TBS", "WOWOW", "J-SPORTS", "JSPORTS", "NTV", "朝日", "日本", "JAPAN"]): 
-        return "日本频道"
-    if any(x in name_upper for x in ["KBS", "SBS", "MBC", "TVN", "JTBC", "OCN", "MNET", "韩国", "KOREA"]): 
-        return "韩国频道"
-    if any(x in name_upper for x in ["ASTRO", "STARHUB", "SINGAPORE", "MALAYSIA", "THAILAND", "新加坡", "大马", "马来西亚", "泰国", "CH3", "CH7", "8频道", "U频道"]): 
-        return "新马泰频道"
-    if any(x in name_upper for x in ["HBO", "NETFLIX", "BBC", "CNN", "FOX", "SKY", "ESPN", "ABC", "NBC", "CBS", "美国", "英国", "USA", "UK"]): 
-        return "欧美频道"
+    if any(x in name_upper for x in ["TVB", "翡翠", "J2", "明珠", "星空", "凤凰", "纬来", "东森", "八大", "中天", "三立", "民视", "台视", "华视", "年代", "非凡", "香港", "台湾"]): return "港台频道"
+    if any(x in name_upper for x in ["NHK", "FUJI", "TOKYO", "TBS", "WOWOW", "J-SPORTS", "JSPORTS", "NTV", "朝日", "日本", "JAPAN"]): return "日本频道"
+    if any(x in name_upper for x in ["KBS", "SBS", "MBC", "TVN", "JTBC", "OCN", "MNET", "韩国", "KOREA"]): return "韩国频道"
+    if any(x in name_upper for x in ["ASTRO", "STARHUB", "SINGAPORE", "MALAYSIA", "THAILAND", "新加坡", "大马", "马来西亚", "泰国", "CH3", "CH7", "8频道", "U频道"]): return "新马泰频道"
+    if any(x in name_upper for x in ["HBO", "NETFLIX", "BBC", "CNN", "FOX", "SKY", "ESPN", "ABC", "NBC", "CBS", "美国", "英国", "USA", "UK"]): return "欧美频道"
     
-    # 5. 地方频道按省份独立建组 (兜底)
+    # 5. 地方频道按省份兜底
     for prov in PROVINCE_WEIGHT.keys():
         if prov in name_upper: return f"{prov}频道"
     for city, prov in CITY_MAPPING.items():
@@ -156,20 +138,16 @@ def get_group_title(name):
     return "其他频道"
 
 def custom_sort_key(item):
-    """多级排序核心引擎"""
     name = item["name"]
     group = item["group"]
-    
     cat_weight = CATEGORY_WEIGHT.get(group, 99)
     prov_weight = 999
     
-    # 动态识别省份频道，并赋予排序权重
     prov_name = group.replace("频道", "")
     if prov_name in PROVINCE_WEIGHT:
-        cat_weight = 30  # 强制排在卫视之后，主题频道之前
+        cat_weight = 30 
         prov_weight = PROVINCE_WEIGHT[prov_name]
                     
-    # 频道名称数字补零，如 CCTV-2 变为 CCTV-002
     sort_name = re.sub(r'\d+', lambda x: x.group().zfill(3), name)
     return (cat_weight, prov_weight, sort_name, item["delay"])
 
@@ -212,49 +190,76 @@ def fetch_web_sources():
             res = requests.get(url, timeout=10)
             if res.status_code == 200:
                 collected.extend(parse_content(res.text))
-        except Exception as e:
-            print(f"⚠️ 抓取 {url} 失败: {e}")
+        except: pass
     return collected
 
 async def fetch_telegram_sources_async():
-    print("💬 正在通过 Telethon 官方协议深度解析 TG 频道及群组文件...")
+    print("💬 正在通过 Telethon 协议解析 TG 群组...")
     tg_collected = []
-    
-    if not TG_SESSION or not TG_API_ID or not TG_API_HASH:
-        print("⚠️ 未配置 TG_SESSION 环境变量，跳过 Telegram 深度抓取。")
-        return tg_collected
+    if not TG_SESSION or not TG_API_ID or not TG_API_HASH: return tg_collected
 
     client = TelegramClient(StringSession(TG_SESSION), int(TG_API_ID), TG_API_HASH)
     await client.connect()
 
     for channel in TG_CHANNELS:
         try:
-            print(f"⏳ 正在扫描 TG 来源: {channel}")
-            # 扫描最新的 50 条群消息
-            async for message in client.iter_messages(channel, limit=50):
-                if message.text:
-                    tg_collected.extend(parse_content(message.text))
-                
-                # 拦截实体群文件进行内存解析
+            async for message in client.iter_messages(channel, limit=30):
+                if message.text: tg_collected.extend(parse_content(message.text))
                 if message.document and message.file.name:
                     file_name = message.file.name.lower()
                     if '.m3u' in file_name or '.txt' in file_name:
-                        print(f"   -> 📂 拦截到实体文件 [{message.file.name}]，进行内存暴力解析...")
                         try:
                             file_bytes = await client.download_media(message.document, bytes)
                             if file_bytes:
                                 text_content = file_bytes.decode('utf-8', errors='ignore')
-                                extracted = parse_content(text_content)
-                                print(f"      ✅ 成功提取了 {len(extracted)} 个频道！")
-                                tg_collected.extend(extracted)
-                        except Exception as e:
-                            print(f"      ❌ 解析文件失败: {e}")
-                            
-        except Exception as e:
-            print(f"⚠️ 扫描 {channel} 失败: {e}")
-            
+                                tg_collected.extend(parse_content(text_content))
+                        except: pass
+        except: pass
     await client.disconnect()
     return tg_collected
+
+async def fetch_github_search_sources():
+    print("🌐 启动 GitHub 全网雷达，搜索最新野生开源 IPTV 仓库...")
+    collected = []
+    github_token = os.environ.get("GITHUB_TOKEN")
+    headers = {"Accept": "application/vnd.github.v3+json"}
+    if github_token: headers["Authorization"] = f"token {github_token}"
+        
+    date_limit = (datetime.datetime.utcnow() - datetime.timedelta(days=3)).strftime('%Y-%m-%d')
+    query = f"iptv OR m3u pushed:>{date_limit}"
+    search_url = f"https://api.github.com/search/repositories?q={query}&sort=updated&order=desc&per_page=5"
+    
+    async with aiohttp.ClientSession() as session:
+        try:
+            async with session.get(search_url, headers=headers, timeout=10) as res:
+                if res.status != 200: return collected
+                data = await res.json()
+                repos = data.get("items", [])
+                
+            for repo in repos:
+                repo_name = repo["full_name"]
+                default_branch = repo["default_branch"]
+                print(f"   -> 🔍 锁定活跃仓库: {repo_name}")
+                
+                tree_url = f"https://api.github.com/repos/{repo_name}/git/trees/{default_branch}?recursive=1"
+                async with session.get(tree_url, headers=headers, timeout=10) as tree_res:
+                    if tree_res.status != 200: continue
+                    tree_data = await tree_res.json()
+                    tree = tree_data.get("tree", [])
+                    
+                m3u_files = [item["path"] for item in tree if str(item["path"]).lower().endswith(".m3u")]
+                for path in m3u_files[:3]: 
+                    raw_url = f"https://raw.githubusercontent.com/{repo_name}/{default_branch}/{path}"
+                    try:
+                        async with session.get(raw_url, timeout=15) as raw_res:
+                            if raw_res.status == 200:
+                                text = await raw_res.text()
+                                collected.extend(parse_content(text))
+                    except: pass
+        except Exception as e:
+            print(f"⚠️ GitHub 雷达运行异常: {e}")
+            
+    return collected
 
 # ==================== 5. 测速验证与主程序 ====================
 async def check_single_stream(semaphore, session, item):
@@ -262,27 +267,22 @@ async def check_single_stream(semaphore, session, item):
         url = item["url"]
         name = item["name"]
         
-        # 兼容 Webview.js 嗅探链接，直接放行不测速
         if "webview.js" in url:
-            print(f"✅ 放行: {name} (Webview代理源无需测速)")
             return {"name": name, "url": url, "delay": 1, "res": "Webview"}
 
         start_time = time.time()
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-        }
+        headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"}
         
         try:
             async with session.head(url, headers=headers, timeout=5, allow_redirects=True) as response:
                 if response.status not in [200, 301, 302]: return None
-        except:
-            return None
+        except: return None
             
         delay = int((time.time() - start_time) * 1000)
         
         cmd = [
             'ffprobe', '-v', 'quiet', '-print_format', 'json', 
-            '-user_agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
+            '-user_agent', 'Mozilla/5.0',
             '-show_streams', '-select_streams', 'v:0', '-i', url
         ]
         try:
@@ -295,18 +295,16 @@ async def check_single_stream(semaphore, session, item):
                     h = data["streams"][0].get("height", 0)
                     print(f"✅ 成功: {name} | {w}x{h} | {delay}ms")
                     return {"name": name, "url": url, "delay": delay, "res": f"{w}x{h}"}
-        except Exception:
-            pass
+        except: pass
         return None
 
 async def main():
     web_raw = fetch_web_sources()
     tg_raw = await fetch_telegram_sources_async()
-    total_raw = web_raw + tg_raw
+    github_raw = await fetch_github_search_sources()
     
-    if not total_raw: 
-        print("❌ 未获取到任何直播源，程序退出。")
-        return
+    total_raw = web_raw + tg_raw + github_raw
+    if not total_raw: return
     
     semaphore = asyncio.Semaphore(MAX_CONCURRENT_TASKS)
     connector = aiohttp.TCPConnector(limit=MAX_CONCURRENT_TASKS, ssl=False)
@@ -320,7 +318,6 @@ async def main():
     
     channel_dict = {}
     for r in valid_results:
-        # 【核心改动】在进入字典分组前，先对名称进行强制洗澡统一
         clean_name = standardize_name(r["name"])
         r["name"] = clean_name 
         channel_dict.setdefault(clean_name, []).append(r)
@@ -335,21 +332,15 @@ async def main():
             
     final_list.sort(key=custom_sort_key)
         
-    # 生成最终带有安全锁的 M3U 文件
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         f.write('#EXTM3U x-tvg-url="http://epg.51zmt.top:801/api/diyp/"\n')
         for item in final_list:
-            
-            lock_tag = ""
-            # 【安全防护】成人频道自动打上锁定标签
-            if item["group"] == "成人频道":
-                lock_tag = ' tvg-lock="1"'
-                
+            lock_tag = ' tvg-lock="1"' if item["group"] == "成人频道" else ""
             display_name = f"{item['name']} [{item['res']}]({item['delay']}ms)"
             f.write(f'#EXTINF:-1 tvg-name="{item["name"]}" group-title="{item["group"]}"{lock_tag},{display_name}\n')
             f.write(f'{item["url"]}\n')
             
-    print("\n🎉 自动化脚本抓取、清洗归类及精准排序任务圆满完成！")
+    print("\n🎉 自动化脚本全网抓取、深度洗澡及精准排序任务圆满完成！")
 
 if __name__ == "__main__":
     asyncio.run(main())
