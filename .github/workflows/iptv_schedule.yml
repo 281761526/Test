@@ -33,6 +33,7 @@ jobs:
         TG_API_ID: ${{ secrets.TG_API_ID }}
         TG_API_HASH: ${{ secrets.TG_API_HASH }}
         TG_SESSION: ${{ secrets.TG_SESSION }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: python update_iptv.py # ⚠️ 确保此处的文件名与您仓库中的 Python 文件名一致
 
     - name: Commit and Push M3U
