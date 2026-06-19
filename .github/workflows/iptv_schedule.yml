@@ -2,19 +2,17 @@ name: Build and Run IPTV Scraper
 
 on:
   schedule:
-    - cron: '0 0,12 * * *' # 每天按需运行，请保留您原有的时间设置
-  workflow_dispatch: # 允许手动点击运行
+    - cron: '0 0,12 * * *'
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    # 升级到 v4，消除 Node.js 20 警告
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # 升级到 v5，消除 Node.js 20 警告
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -28,10 +26,14 @@ jobs:
     - name: Install Python Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install aiohttp requests beautifulsoup4
+        pip install aiohttp requests beautifulsoup4 telethon
 
     - name: Run Scraper Script
-      run: python update_iptv.py # ⚠️ 注意：如果您的 Python 文件不叫 main.py，请将这里修改为您的实际文件名
+      env:
+        TG_API_ID: ${{ secrets.TG_API_ID }}
+        TG_API_HASH: ${{ secrets.TG_API_HASH }}
+        TG_SESSION: ${{ secrets.TG_SESSION }}
+      run: python update_iptv.py # ⚠️ 确保此处的文件名与您仓库中的 Python 文件名一致
 
     - name: Commit and Push M3U
       run: |
