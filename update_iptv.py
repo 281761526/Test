@@ -156,7 +156,7 @@ def standardize_name(name):
                 return f"CCTV-{num}"
                 
     # 【常规区】：其他频道剔除杂乱后缀
-    noise_words = ['HD', 'FHD', 'SD', '1080P', '4K', '8K', '高清', '超清', '标清', '蓝光', '频道', '综合', '测试', '线路', 'VIP']
+    noise_words = ['HD', 'FHD', 'SD', 'BD', '1080P', '4K', '8K', '高清', '超清', '标清', '蓝光', '频道', '综合', '测试', '线路', 'VIP']
     for word in noise_words:
         name_upper = name_upper.replace(word, '')
         
