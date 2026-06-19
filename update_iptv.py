@@ -425,11 +425,15 @@ async def main():
     final_list.sort(key=custom_sort_key)
         
     # ================= 写入 M3U 文件 =================
+  
     with open(OUTPUT_M3U, "w", encoding="utf-8") as f:
         f.write('#EXTM3U x-tvg-url="http://epg.51zmt.top:801/api/diyp/"\n')
         for item in final_list:
             lock_tag = ' tvg-lock="1"' if item["group"] == "成人频道" else ""
-            display_name = f"{item['name']} [{item['res']}]({item['delay']}ms)"
+            
+            # 🟢 精简修改：去除了 [{item['res']}]，只保留频道名称和 (延时ms)
+            display_name = f"{item['name']} ({item['delay']}ms)"
+            
             for s in item["top_sources"]:
                 f.write(f'#EXTINF:-1 tvg-name="{item["name"]}" group-title="{item["group"]}"{lock_tag},{display_name}\n')
                 f.write(f'{s["url"]}\n')
