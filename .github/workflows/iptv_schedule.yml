@@ -26,7 +26,7 @@ jobs:
     - name: Install Python Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install aiohttp requests beautifulsoup4 telethon
+        pip install aiohttp requests beautifulsoup4 telethon zhconv
 
     - name: Run Scraper Script
       env:
