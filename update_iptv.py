@@ -121,7 +121,7 @@ def standardize_name(name):
         if "4K" in name_upper: return "CCTV-4K 超高清"
         if "8K" in name_upper: return "CCTV-8K 超高清"
         
-        cctv_match = re.search(r'(CCTV|中央)[\s\-]*(\d+\+?)', name_upper)
+        cctv_match = re.search(r'(CCTV|中央)[_\s\-·・]*(\d+\+?)', name_upper)
         if cctv_match:
             num = cctv_match.group(2)
             
