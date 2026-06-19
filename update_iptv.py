@@ -37,7 +37,6 @@ RAW_SOURCES_URLS = [
     "http://aktv.top/live.m3u",
     "https://live.fanmingming.com/tv/m3u/ipv6.m3u",
     "https://ghp.ci/raw.githubusercontent.com/suxuang/myIPTV/main/ipv6.m3u",
-    "https://live.fanmingming.com/tv/m3u/ipv6.m3u",
     "https://cdn09022024.gitlink.org.cn/api/v1/repos/qianx/123/raw/1231?ref=master&access_token=9cdba3b67a6dadb223a75cde19bbca6125757e5e",
     "https://raw.githubusercontent.com/281761526/HBD/refs/heads/main/7.m3u",
     "https://gitee.com/main-stream/tv/raw/master/BOSS.json",
@@ -60,7 +59,6 @@ CATEGORY_WEIGHT = {
     "港澳台频道": 30,
     "新闻资讯": 40, "体育频道": 41, "影视频道": 42, 
     "少儿频道": 43, "科教纪录": 44, "综合文娱": 45, 
-    # 地方省份动态权重分配为 50
     "国际频道": 60, 
     "其他频道": 90, 
     "成人频道": 100
@@ -73,7 +71,6 @@ PROVINCE_WEIGHT = {
     "海南": 25, "内蒙古": 26, "甘肃": 27, "宁夏": 28, "青海": 29, "新疆": 30, "西藏": 31
 }
 
-# 🟢 超级无死角扩充：补齐所有易漏网的县市区
 CITY_MAPPING = {
     "广州": "广东", "深圳": "广东", "珠海": "广东", "汕头": "广东", "佛山": "广东", "东莞": "广东", "湛江": "广东", "中山": "广东", "惠州": "广东", "江门": "广东",
     "杭州": "浙江", "宁波": "浙江", "温州": "浙江", "绍兴": "浙江", "金华": "浙江", "嘉兴": "浙江", "台州": "浙江", "湖州": "浙江", "丽水": "浙江", "义乌": "浙江",
@@ -97,24 +94,71 @@ CITY_MAPPING = {
     "呼和浩特": "内蒙古", "包头": "内蒙古", "鄂尔多斯": "内蒙古", "巴彦淖尔": "内蒙古", "乌兰察布": "内蒙古", "乌海": "内蒙古", "兴安": "内蒙古",
     "兰州": "甘肃", "天水": "甘肃", "银川": "宁夏", 
     "西宁": "青海", "乌鲁木齐": "新疆", "克拉玛依": "新疆", "拉萨": "西藏", "BTV": "北京", "兵团": "新疆",
-    "奎屯": "新疆", "吉木萨尔": "新疆"
+    "奎屯": "新疆", "吉木萨尔": "新疆",
+    "娱乐新闻": "文娱" 
 }
 
 # ==================== 3. 核心清洗与极简分类引擎 ====================
 def standardize_name(name):
-    name = zhconv.convert(name, 'zh-cn').upper()
+    """🟢 终极规范名称引擎：强迫症专属央视/CGTN官方定名"""
+    name_upper = zhconv.convert(name, 'zh-cn').upper()
+    
+    # 【拦截区 1】：CGTN 国际频道强制洗澡
+    if "CGTN" in name_upper:
+        if any(x in name_upper for x in ["西语", "西班牙", "ESPA"]): return "CGTN Español 西班牙语频道"
+        if any(x in name_upper for x in ["法语", "FRAN"]): return "CGTN Français 法语频道"
+        if any(x in name_upper for x in ["阿语", "阿拉伯", "ARAB"]): return "CGTN العربية 阿拉伯语频道"
+        if any(x in name_upper for x in ["俄语", "RUS"]): return "CGTN Русский 俄语频道"
+        if any(x in name_upper for x in ["纪录", "DOC"]): return "CGTN Documentary 环球纪录频道"
+        return "CGTN（英语新闻频道）"
+    
+    # 【拦截区 2】：CCTV 央视频道强制洗澡
+    if "CCTV" in name_upper or "中央" in name_upper:
+        if "4K" in name_upper: return "CCTV-4K 超高清"
+        if "8K" in name_upper: return "CCTV-8K 超高清"
+        
+        cctv_match = re.search(r'(CCTV|中央)[\s\-]*(\d+\+?)', name_upper)
+        if cctv_match:
+            num = cctv_match.group(2)
+            
+            # 特殊处理：CCTV-4 多版本
+            if num == "4":
+                if "欧洲" in name_upper: return "CCTV-4 中文国际频道（欧洲版）"
+                if "美洲" in name_upper: return "CCTV-4 中文国际频道（美洲版）"
+                if "亚洲" in name_upper: return "CCTV-4 中文国际频道（亚洲版）"
+                return "CCTV-4 中文国际"
+                
+            # 特殊处理：CCTV-9 双语版本
+            if num == "9":
+                if any(x in name_upper for x in ["英", "DOC"]): return "CCTV-9 Documentary 纪录频道（英文版）"
+                return "CCTV-9 纪录频道"
+                
+            # 常规央视标准映射
+            cctv_map = {
+                "1": "CCTV-1 综合频道", "2": "CCTV-2 财经频道", "3": "CCTV-3 综艺频道",
+                "5": "CCTV-5 体育频道", "5+": "CCTV-5+ 体育赛事", "6": "CCTV-6 电影频道",
+                "7": "CCTV-7 国防军事", "8": "CCTV-8 电视剧", "10": "CCTV-10 科教频道",
+                "11": "CCTV-11 戏曲频道", "12": "CCTV-12 社会与法", "13": "CCTV-13 新闻频道",
+                "14": "CCTV-14 少儿频道", "15": "CCTV-15 音乐频道", "16": "CCTV-16 奥林匹克",
+                "17": "CCTV-17 农业农村"
+            }
+            if num in cctv_map:
+                return cctv_map[num]
+            else:
+                return f"CCTV-{num}"
+                
+    # 【常规区】：其他频道剔除杂乱后缀
     noise_words = ['HD', 'FHD', 'SD', '1080P', '4K', '8K', '高清', '超清', '标清', '蓝光', '频道', '综合', '测试', '线路', 'VIP']
     for word in noise_words:
-        name = name.replace(word, '')
+        name_upper = name_upper.replace(word, '')
         
-    name = re.sub(r'[\s\-_\[\]\(\)（）【】]', '', name)
-    cctv_match = re.search(r'(CCTV|中央)(\d+\+?)', name)
-    if cctv_match: return f"CCTV-{cctv_match.group(2)}"
+    name_upper = re.sub(r'[\s\-_\[\]\(\)（）【】]', '', name_upper)
         
-    if "卫视" in name:
-        weishi_match = re.search(r'(.{2,4}卫视)', name)
+    if "卫视" in name_upper:
+        weishi_match = re.search(r'(.{2,4}卫视)', name_upper)
         if weishi_match: return weishi_match.group(1)
-    return name
+            
+    return name_upper
 
 def is_adult_channel(name):
     name_upper = name.upper()
@@ -128,31 +172,24 @@ def is_adult_channel(name):
     return False
 
 def get_group_title(name):
-    """🟢 极简大类合并引擎：减少冗余分组，提升观影翻台体验"""
+    """🟢 极简大类合并引擎"""
     name_simp = zhconv.convert(name, 'zh-cn').upper()
     
-    # 1. 绝对优先：严苛的成人过滤器
     if is_adult_channel(name_simp): return "成人频道"
-
-    # 2. 特殊逻辑前置拦截 (修复包含"新闻"字样的错乱)
     if "娱乐新闻" in name_simp: return "综合文娱"
         
-    # 3. 国际频道 (整合原有的所有外国频道及特有外媒)
     global_countries = ["CGTN", "国际", "INTERNATIONAL", "GLOBAL", "环球", "半岛", "华文", "唐NTD", "NTD", "阿富汗", "芬兰", "西班牙", "俄罗斯", "法国", "德国", "意大利", "英国", "阿拉伯", "印尼", "印度", "澳洲", "澳大利亚", "加拿大", "越南", "缅甸", "NHK", "FUJI", "TOKYO", "TBS", "WOWOW", "JAPAN", "KBS", "SBS", "MBC", "TVN", "KOREA", "ASTRO", "STARHUB", "HBO", "NETFLIX", "BBC", "CNN", "FOX", "SKY", "ESPN"]
     if any(x in name_simp for x in global_countries): return "国际频道"
         
-    # 4. 央卫视与港澳台
     if "CCTV" in name_simp or "中央" in name_simp: return "央视频道"
     if "卫视" in name_simp: return "卫视频道"
     if any(x in name_simp for x in ["香港", "台湾", "澳门", "HK", "TW", "MACAU", "TVB", "翡翠", "凤凰", "台视", "华视", "民视", "三立", "东森", "中天", "纬来", "非凡", "靖天", "大爱", "年代", "澳亚", "莲花", "中旺", "大力", "唯心", "美亚", "有线"]): return "港澳台频道"
 
-    # 5. 地方频道优先提取 (放在大类主题之前)
     for prov in PROVINCE_WEIGHT.keys():
         if prov in name_simp: return f"{prov}频道"
     for city, prov in CITY_MAPPING.items():
         if city in name_simp: return f"{prov}频道"
     
-    # 6. 极简垂类主题 (大类打包，拒绝零碎)
     if any(x in name_simp for x in ["新闻", "NEWS", "资讯", "早班车", "看东方", "财经", "经济", "股市", "理财"]): return "新闻资讯"
     if any(x in name_simp for x in ["电影", "影院", "影迷", "MOVIE", "CINEMA", "大片", "邵氏", "好莱坞", "剧", "电视剧", "剧场"]): return "影视频道"
     if any(x in name_simp for x in ["体育", "SPORTS", "足球", "NBA", "CBA", "台球", "高尔夫", "奥运", "红牛", "电竞"]): return "体育频道"
@@ -160,7 +197,6 @@ def get_group_title(name):
     if any(x in name_simp for x in ["教育", "CETV", "公开课", "课堂", "纪录", "纪实", "地理", "DISCOVERY", "HISTORY", "通史", "历史", "文化", "人文", "科教", "文物"]): return "科教纪录"
     if any(x in name_simp for x in ["戏曲", "梨园", "京剧", "越剧", "音乐", "MTV", "MUSIC", "演唱会", "生活", "健康", "养生", "美食", "农牧", "娱乐", "综艺", "休闲", "游戏"]): return "综合文娱"
 
-    # 7. 智能兜底
     if len(name_simp) >= 2 and not any(char in name_simp for char in ["频", "道", "台", "测", "试"]):
          return "其他频道"
          
@@ -174,11 +210,22 @@ def custom_sort_key(item):
     
     prov_name = group.replace("频道", "")
     if prov_name in PROVINCE_WEIGHT:
-        cat_weight = 50 # 🟢 调整为 50，让省市频道整体排在主题分类的后面
+        cat_weight = 50 
         prov_weight = PROVINCE_WEIGHT[prov_name]
+        
+    cctv_weight = 999
+    if group == "央视频道":
+        match = re.search(r'CCTV-(\d+\+?|4K|8K)', name)
+        if match:
+            m = match.group(1)
+            if m == "5+": cctv_weight = 5.5
+            elif m == "4K": cctv_weight = 900
+            elif m == "8K": cctv_weight = 901
+            elif m.isdigit(): cctv_weight = int(m)
+            else: cctv_weight = 990
                     
     sort_name = re.sub(r'\d+', lambda x: x.group().zfill(3), name)
-    return (cat_weight, prov_weight, sort_name, item.get("delay", 9999))
+    return (cat_weight, prov_weight, cctv_weight, sort_name, item.get("delay", 9999))
 
 def parse_content(text):
     results = []
@@ -356,14 +403,13 @@ async def main():
         group_title = get_group_title(name)
         top_sources = sources[:MAX_RETAIN_PER_CHANNEL]
         
-        merged_url = "#".join([s["url"] for s in top_sources])
         best_delay = top_sources[0]["delay"]
         best_res = top_sources[0]["res"]
         
         final_list.append({
             "name": name,
             "group": group_title,
-            "url": merged_url,
+            "top_sources": top_sources, 
             "delay": best_delay,
             "res": best_res
         })
@@ -376,8 +422,9 @@ async def main():
         for item in final_list:
             lock_tag = ' tvg-lock="1"' if item["group"] == "成人频道" else ""
             display_name = f"{item['name']} [{item['res']}]({item['delay']}ms)"
-            f.write(f'#EXTINF:-1 tvg-name="{item["name"]}" group-title="{item["group"]}"{lock_tag},{display_name}\n')
-            f.write(f'{item["url"]}\n')
+            for s in item["top_sources"]:
+                f.write(f'#EXTINF:-1 tvg-name="{item["name"]}" group-title="{item["group"]}"{lock_tag},{display_name}\n')
+                f.write(f'{s["url"]}\n')
             
     # ================= 写入 TXT 文件 =================
     txt_dict = {}
@@ -388,9 +435,10 @@ async def main():
         for group, items in txt_dict.items():
             f.write(f"{group},#genre#\n")
             for item in items:
-                f.write(f"{item['name']},{item['url']}\n")
+                merged_url = "#".join([s["url"] for s in item["top_sources"]])
+                f.write(f"{item['name']},{merged_url}\n")
             
-    print("\n🎉 自动化脚本极简合并版圆满完成！")
+    print("\n🎉 自动化脚本已应用央视/CGTN官方规范定名，圆满完成！")
 
 if __name__ == "__main__":
     asyncio.run(main())
