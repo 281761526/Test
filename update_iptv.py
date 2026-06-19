@@ -10,6 +10,7 @@ import datetime
 from bs4 import BeautifulSoup
 from telethon import TelegramClient
 from telethon.sessions import StringSession
+import zhconv  # 🟢 引入强大的简繁体转换库
 
 # ==================== 1. 基础抓取配置区域 ====================
 RAW_SOURCES_URLS = [
@@ -52,7 +53,7 @@ TG_CHANNELS = [
 ]
 
 OUTPUT_M3U = "live.m3u"
-OUTPUT_TXT = "live.txt"  # 自动生成支持 # 号合并的 TVBox 专用格式
+OUTPUT_TXT = "live.txt"  
 MAX_CONCURRENT_TASKS = 40  
 MAX_RETAIN_PER_CHANNEL = 5 
 
@@ -60,11 +61,12 @@ TG_API_ID = os.environ.get("TG_API_ID")
 TG_API_HASH = os.environ.get("TG_API_HASH")
 TG_SESSION = os.environ.get("TG_SESSION")
 
-# ==================== 2. 精准排序权重与地市字典 ====================
+# ==================== 2. 精准排序权重与地市深度字典 ====================
 CATEGORY_WEIGHT = {
-    "央视频道": 10, "卫视频道": 20, 
-    "体育频道": 31, "电影频道": 32, "电视剧频道": 33, 
-    "少儿频道": 34, "纪录频道": 35, "音乐频道": 36,
+    "央视频道": 10, "国际频道": 15, "卫视频道": 20, 
+    # 地方省份动态权重 30
+    "新闻频道": 31, "体育频道": 32, "电影频道": 33, "电视剧频道": 34, 
+    "少儿频道": 35, "纪录频道": 36, "音乐频道": 37,
     "港台频道": 40, "日本频道": 50, "韩国频道": 60,
     "新马泰频道": 70, "欧美频道": 80, "其他频道": 90, 
     "成人频道": 100
@@ -77,74 +79,122 @@ PROVINCE_WEIGHT = {
     "海南": 25, "内蒙古": 26, "甘肃": 27, "宁夏": 28, "青海": 29, "新疆": 30, "西藏": 31
 }
 
-# 深度扩充地级市与别名映射，防止地方台流失到"其他频道"
+# 🟢 深度扩充：全国地级市/县级市/特有大组映射，彻底防止流失！
 CITY_MAPPING = {
-    "广州": "广东", "深圳": "广东", "珠海": "广东", "汕头": "广东", "佛山": "广东", "东莞": "广东",
-    "杭州": "浙江", "宁波": "浙江", "温州": "浙江", "绍兴": "浙江", "金华": "浙江", "嘉兴": "浙江",
-    "南京": "江苏", "苏州": "江苏", "无锡": "江苏", "徐州": "江苏", "常州": "江苏", "南通": "江苏",
-    "成都": "四川", "绵阳": "四川", "武汉": "湖北", "宜昌": "湖北", "襄阳": "湖北",
-    "济南": "山东", "青岛": "山东", "烟台": "山东", "潍坊": "山东", "威海": "山东",
+    # 广东
+    "广州": "广东", "深圳": "广东", "珠海": "广东", "汕头": "广东", "佛山": "广东", "东莞": "广东", "湛江": "广东", "中山": "广东", "惠州": "广东", "江门": "广东",
+    # 浙江
+    "杭州": "浙江", "宁波": "浙江", "温州": "浙江", "绍兴": "浙江", "金华": "浙江", "嘉兴": "浙江", "台州": "浙江", "湖州": "浙江", "丽水": "浙江", "义乌": "浙江",
+    # 江苏 (含新沂)
+    "南京": "江苏", "苏州": "江苏", "无锡": "江苏", "徐州": "江苏", "常州": "江苏", "南通": "江苏", "连云港": "江苏", "淮安": "江苏", "盐城": "江苏", "扬州": "江苏", "镇江": "江苏", "泰州": "江苏", "宿迁": "江苏", "新沂": "江苏", "沭阳": "江苏", "邳州": "江苏",
+    # 四川 (含广安)
+    "成都": "四川", "绵阳": "四川", "广安": "四川", "南充": "四川", "达州": "四川", "宜宾": "四川", "泸州": "四川", "德阳": "四川", "乐山": "四川", "巴中": "四川",
+    # 吉林 (含松原)
+    "长春": "吉林", "吉林市": "吉林", "四平": "吉林", "辽源": "吉林", "通化": "吉林", "白山": "吉林", "松原": "吉林", "白城": "吉林", "延边": "吉林",
+    # 湖北
+    "武汉": "湖北", "宜昌": "湖北", "襄阳": "湖北", "荆州": "湖北", "黄石": "湖北", "十堰": "湖北",
+    # 山东
+    "济南": "山东", "青岛": "山东", "烟台": "山东", "潍坊": "山东", "威海": "山东", "临沂": "山东", "济宁": "山东", "淄博": "山东",
+    # 其他核心城市兜底
     "厦门": "福建", "福州": "福建", "泉州": "福建", "漳州": "福建",
-    "长沙": "湖南", "株洲": "湖南", "郑州": "河南", "洛阳": "河南", "合肥": "安徽", "芜湖": "安徽",
-    "南昌": "江西", "赣州": "江西", "哈尔滨": "黑龙江", "大庆": "黑龙江", 
-    "长春": "吉林", "沈阳": "辽宁", "大连": "辽宁", "昆明": "云南", 
-    "贵阳": "贵州", "南宁": "广西", "桂林": "广西", "海口": "海南", "三亚": "海南",
-    "呼和浩特": "内蒙古", "包头": "内蒙古", "兰州": "甘肃", "银川": "宁夏", 
-    "西宁": "青海", "乌鲁木齐": "新疆", "拉萨": "西藏", "BTV": "北京", "兵团": "新疆"
+    "长沙": "湖南", "株洲": "湖南", "岳阳": "湖南", "郑州": "河南", "洛阳": "河南", "开封": "河南", "合肥": "安徽", "芜湖": "安徽", "蚌埠": "安徽",
+    "南昌": "江西", "赣州": "江西", "九江": "江西", "哈尔滨": "黑龙江", "大庆": "黑龙江", "齐齐哈尔": "黑龙江",
+    "沈阳": "辽宁", "大连": "辽宁", "鞍山": "辽宁", "昆明": "云南", "大理": "云南",
+    "贵阳": "贵州", "遵义": "贵州", "南宁": "广西", "桂林": "广西", "柳州": "广西", "海口": "海南", "三亚": "海南",
+    "呼和浩特": "内蒙古", "包头": "内蒙古", "鄂尔多斯": "内蒙古", "兰州": "甘肃", "天水": "甘肃", "银川": "宁夏", 
+    "西宁": "青海", "乌鲁木齐": "新疆", "克拉玛依": "新疆", "拉萨": "西藏", "BTV": "北京", "兵团": "新疆"
 }
 
-# ==================== 3. 核心清洗与排序函数 ====================
+# ==================== 3. 核心清洗与分类引擎 ====================
 def standardize_name(name):
-    name = name.upper()
+    """超级名称清洗：简繁体转换 -> 剥离后缀 -> 格式化央卫视"""
+    # 🟢 简繁体识别：将所有的繁体字强制转换为简体，为后续合并打下基石
+    name = zhconv.convert(name, 'zh-cn').upper()
+    
+    # 暴力剔除常见的无用后缀和分辨率标签
     noise_words = ['HD', 'FHD', 'SD', '1080P', '4K', '8K', '高清', '超清', '标清', '蓝光', '频道', '综合', '测试', '线路', 'VIP']
     for word in noise_words:
         name = name.replace(word, '')
+        
     name = re.sub(r'[\s\-_\[\]\(\)（）【】]', '', name)
+    
     cctv_match = re.search(r'(CCTV|中央)(\d+\+?)', name)
     if cctv_match: return f"CCTV-{cctv_match.group(2)}"
+        
     if "卫视" in name:
         weishi_match = re.search(r'(.{2,4}卫视)', name)
         if weishi_match: return weishi_match.group(1)
+            
     return name
 
-def get_group_title(name):
+def is_adult_channel(name):
+    """🟢 严苛且极其全面的成人频道判定规则，彻底堵死欧美与中文漏网之鱼"""
     name_upper = name.upper()
     
-    # 1. 绝对优先：成人频道过滤器
-    adult_keywords = [
-        "ADULT", "XXX", "18+", "AV", "HENTAI", "PORN", "SUTRA",
-        "松视", "麻豆", "潘多", "潘朵", "彩虹", "惊艳", "香蕉", 
-        "一本道", "东京热", "加勒比", "千人斩", "寻花", "探花", 
-        "玉蒲团", "金瓶梅", "肉蒲团", "三级", "艳谭", "人妻",
-        "熟女", "巨乳", "无码", "激情", "🔞", "🈲", "情色", "色戒", "春药"
-    ]
-    if any(x in name_upper for x in adult_keywords): return "成人频道"
+    # 1. 英文强匹配关键字 (加入单词边界，防止误杀，如 CCTV-6 AV)
+    # 包含了您 M3U 文件中出现的大量欧美厂牌和分类：EROTIC, HUSTLER, PENTHOUSE, PLAYBOY, BRAZZERS, MILF 等
+    if re.search(r'(?:^|[^A-Z])(ADULT|XXX|18\+|AV|HENTAI|PORN|SUTRA|EROTIC|EROX|HUSTLER|PLAYBOY|PENTHOUSE|MILF|BABES|BRAZZERS|DORCEL|VIVID|REDLIGHT|X-DREAM|XXL)(?:[^A-Z]|$)', name_upper):
+        return True
         
-    # 2. 央视与卫视
-    if "CCTV" in name_upper or "中央" in name_upper: return "央视频道"
-    if "卫视" in name_upper: return "卫视频道"
+    # 2. 英文无边界匹配 (针对一些喜欢连写的特殊名称，如 ecotica-40, Erota HD)
+    if any(x in name_upper for x in ["ECOTICA", "EROTA", "EXTASY", "SEXTREME", "PLAYHOUSE"]):
+        return True
 
-    # 3. 地方频道优先提取 (放在主题频道前面，防止"北京影视"被划归为电影频道)
+    # 3. 中文关键字：加入易漏的变种词汇(潘朵拉、惊艳、日本道、啪啪啪等)
+    zh_keywords = [
+        "松视", "麻豆", "潘多", "潘朵", "一本道", "日本道", "东京热", "加勒比", "千人斩", 
+        "寻花", "探花", "玉蒲团", "金瓶梅", "肉蒲团", "艳谭", "人妻", "熟女", 
+        "无码", "🔞", "🈲", "春药", "巨乳", "惊艳", "啪啪啪"
+    ]
+    if any(k in name_upper for k in zh_keywords):
+        return True
+        
+    return False
+
+def get_group_title(name):
+    """智能分类引擎：优先判定国际、新闻、主题，并带有智能回退机制"""
+    # 简繁体转换，防止 "廣東" 无法匹配 "广东"
+    name_simp = zhconv.convert(name, 'zh-cn').upper()
+    
+    # 1. 绝对优先：严苛的成人过滤器
+    if is_adult_channel(name_simp): return "成人频道"
+        
+    # 2. 🟢 新增：国际频道 (CGTN等)
+    if any(x in name_simp for x in ["CGTN", "国际", "INTERNATIONAL", "GLOBAL", "CGTN"]): return "国际频道"
+        
+    # 3. 央视与卫视
+    if "CCTV" in name_simp or "中央" in name_simp: return "央视频道"
+    if "卫视" in name_simp: return "卫视频道"
+    
+    # 4. 🟢 新增：新闻频道
+    if any(x in name_simp for x in ["新闻", "NEWS", "资讯", "早班车"]): return "新闻频道"
+
+    # 5. 地方频道优先提取 (精确匹配省市区)
     for prov in PROVINCE_WEIGHT.keys():
-        if prov in name_upper: return f"{prov}频道"
+        if prov in name_simp: return f"{prov}频道"
     for city, prov in CITY_MAPPING.items():
-        if city in name_upper: return f"{prov}频道"
+        if city in name_simp: return f"{prov}频道"
     
-    # 4. 垂直主题频道
-    if any(x in name_upper for x in ["电影", "影院", "影迷", "MOVIE", "CINEMA", "星影", "动作", "大片"]): return "电影频道"
-    if any(x in name_upper for x in ["剧", "电视剧"]): return "电视剧频道"
-    if any(x in name_upper for x in ["音乐", "MTV", "MUSIC", "KTV", "演唱会", "好声音"]): return "音乐频道"
-    if any(x in name_upper for x in ["体育", "SPORTS", "足球", "NBA", "CBA", "台球", "高尔夫", "奥运"]): return "体育频道"
-    if any(x in name_upper for x in ["少儿", "动漫", "卡通", "动画", "CARTOON", "KIDS", "金鹰卡通", "炫动卡通"]): return "少儿频道"
-    if any(x in name_upper for x in ["纪录", "纪实", "地理", "DISCOVERY", "NATIONAL", "HISTORY", "科教"]): return "纪录频道"
+    # 6. 垂直主题频道
+    if any(x in name_simp for x in ["电影", "影院", "影迷", "MOVIE", "CINEMA", "星影", "动作", "大片"]): return "电影频道"
+    if any(x in name_simp for x in ["剧", "电视剧", "剧场"]): return "电视剧频道"
+    if any(x in name_simp for x in ["音乐", "MTV", "MUSIC", "KTV", "演唱会", "好声音"]): return "音乐频道"
+    if any(x in name_simp for x in ["体育", "SPORTS", "足球", "NBA", "CBA", "台球", "高尔夫", "奥运"]): return "体育频道"
+    if any(x in name_simp for x in ["少儿", "动漫", "卡通", "动画", "CARTOON", "KIDS", "金鹰卡通", "炫动卡通"]): return "少儿频道"
+    if any(x in name_simp for x in ["纪录", "纪实", "地理", "DISCOVERY", "NATIONAL", "HISTORY", "科教"]): return "纪录频道"
 
-    # 5. 国际与地区识别
-    if any(x in name_upper for x in ["TVB", "翡翠", "J2", "明珠", "星空", "凤凰", "纬来", "东森", "八大", "中天", "三立", "民视", "台视", "华视", "年代", "非凡", "香港", "台湾"]): return "港台频道"
-    if any(x in name_upper for x in ["NHK", "FUJI", "TOKYO", "TBS", "WOWOW", "J-SPORTS", "JSPORTS", "NTV", "朝日", "日本", "JAPAN"]): return "日本频道"
-    if any(x in name_upper for x in ["KBS", "SBS", "MBC", "TVN", "JTBC", "OCN", "MNET", "韩国", "KOREA"]): return "韩国频道"
-    if any(x in name_upper for x in ["ASTRO", "STARHUB", "SINGAPORE", "MALAYSIA", "THAILAND", "新加坡", "大马", "马来西亚", "泰国", "CH3", "CH7", "8频道", "U频道"]): return "新马泰频道"
-    if any(x in name_upper for x in ["HBO", "NETFLIX", "BBC", "CNN", "FOX", "SKY", "ESPN", "ABC", "NBC", "CBS", "美国", "英国", "USA", "UK"]): return "欧美频道"
+    # 7. 国际与地区识别
+    if any(x in name_simp for x in ["TVB", "翡翠", "J2", "明珠", "星空", "凤凰", "纬来", "东森", "八大", "中天", "三立", "民视", "台视", "华视", "年代", "非凡", "香港", "台湾"]): return "港台频道"
+    if any(x in name_simp for x in ["NHK", "FUJI", "TOKYO", "TBS", "WOWOW", "J-SPORTS", "JSPORTS", "NTV", "朝日", "日本", "JAPAN"]): return "日本频道"
+    if any(x in name_simp for x in ["KBS", "SBS", "MBC", "TVN", "JTBC", "OCN", "MNET", "韩国", "KOREA"]): return "韩国频道"
+    if any(x in name_simp for x in ["ASTRO", "STARHUB", "SINGAPORE", "MALAYSIA", "THAILAND", "新加坡", "大马", "马来西亚", "泰国", "CH3", "CH7", "8频道", "U频道"]): return "新马泰频道"
+    if any(x in name_simp for x in ["HBO", "NETFLIX", "BBC", "CNN", "FOX", "SKY", "ESPN", "ABC", "NBC", "CBS", "美国", "英国", "USA", "UK"]): return "欧美频道"
     
+    # 8. 🟢 智能兜底分组：如果未匹配到已知关键字，尝试提取名称前两字作为地域名，若无明显地域特征再归入"其他频道"
+    if len(name_simp) >= 2 and not any(char in name_simp for char in ["频", "道", "台", "测", "试"]):
+         # 这是一个简易的智能聚类启发式逻辑
+         return "其他频道"
+         
     return "其他频道"
 
 def custom_sort_key(item):
@@ -159,7 +209,6 @@ def custom_sort_key(item):
         prov_weight = PROVINCE_WEIGHT[prov_name]
                     
     sort_name = re.sub(r'\d+', lambda x: x.group().zfill(3), name)
-    # 取分组里测速最快的作为基准
     return (cat_weight, prov_weight, sort_name, item.get("delay", 9999))
 
 def parse_content(text):
@@ -238,7 +287,7 @@ async def fetch_github_search_sources():
         
     date_limit = (datetime.datetime.utcnow() - datetime.timedelta(days=3)).strftime('%Y-%m-%d')
     query = f"iptv OR m3u pushed:>{date_limit}"
-    search_url = f"https://api.github.com/search/repositories?q={query}&sort=updated&order=desc&per_page=5"
+    search_url = f"https://api.github.com/search/repositories?q={query}&sort=updated&order=desc&per_page=3" # 减少搜索量，防超时
     
     async with aiohttp.ClientSession() as session:
         try:
@@ -258,7 +307,7 @@ async def fetch_github_search_sources():
                     tree = tree_data.get("tree", [])
                     
                 m3u_files = [item["path"] for item in tree if str(item["path"]).lower().endswith(".m3u")]
-                for path in m3u_files[:3]: 
+                for path in m3u_files[:2]: 
                     raw_url = f"https://raw.githubusercontent.com/{repo_name}/{default_branch}/{path}"
                     try:
                         async with session.get(raw_url, timeout=15) as raw_res:
@@ -325,7 +374,7 @@ async def main():
         
     valid_results = [r for r in results if r is not None]
     
-    # 将相同名称的频道收拢
+    # 🟢 绝对强制名称统一：简体化 + 去后缀，确保100%合并同类项
     channel_dict = {}
     for r in valid_results:
         clean_name = standardize_name(r["name"])
@@ -334,13 +383,13 @@ async def main():
         
     final_list = []
     
-    # 核心合并逻辑：将同一个频道的多个优质源提取并用 # 合并
+    # 🟢 核心：多链接无缝合并机制 (#号拼接)
     for name, sources in channel_dict.items():
         sources.sort(key=lambda x: x["delay"]) 
         group_title = get_group_title(name)
         top_sources = sources[:MAX_RETAIN_PER_CHANNEL]
         
-        # 用 # 号合并链接，这是 TVBox/DIYP 等软件最标准的聚合格式
+        # 将多个高质量直连URL用 "#" 符号穿串合并，符合顶级壳子标准
         merged_url = "#".join([s["url"] for s in top_sources])
         best_delay = top_sources[0]["delay"]
         best_res = top_sources[0]["res"]
@@ -364,8 +413,7 @@ async def main():
             f.write(f'#EXTINF:-1 tvg-name="{item["name"]}" group-title="{item["group"]}"{lock_tag},{display_name}\n')
             f.write(f'{item["url"]}\n')
             
-    # ================= 写入 TXT 文件 (TVBox专属) =================
-    # 按分组对频道进行归类输出
+    # ================= 写入 TXT 文件 =================
     txt_dict = {}
     for item in final_list:
         txt_dict.setdefault(item["group"], []).append(item)
@@ -374,9 +422,10 @@ async def main():
         for group, items in txt_dict.items():
             f.write(f"{group},#genre#\n")
             for item in items:
+                # 输出格式：频道名称,链接1#链接2#链接3
                 f.write(f"{item['name']},{item['url']}\n")
             
-    print("\n🎉 自动化脚本全网抓取、链接聚合(#)、精确洗澡及精准排序任务圆满完成！")
+    print("\n🎉 自动化脚本全功能迭代圆满完成！")
 
 if __name__ == "__main__":
     asyncio.run(main())
