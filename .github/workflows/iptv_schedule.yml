@@ -40,6 +40,6 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add live.m3u
+        git add live.m3u live.txt # 🟢 注意这里加上了 live.txt
         git commit -m "Auto-update IPTV sources" || exit 0
         git push
