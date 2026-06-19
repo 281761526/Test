@@ -40,6 +40,9 @@ RAW_SOURCES_URLS = [
     "https://cdn09022024.gitlink.org.cn/api/v1/repos/qianx/123/raw/1231?ref=master&access_token=9cdba3b67a6dadb223a75cde19bbca6125757e5e",
     "https://raw.githubusercontent.com/281761526/HBD/refs/heads/main/7.m3u",
     "https://gitee.com/main-stream/tv/raw/master/BOSS.json",
+    "https://iptv-org.github.io/api/streams.json",
+    "https://raw.githubusercontent.com/hujingguang/ChinaIPTV/refs/heads/main/cnTV_AutoUpdate.m3u8",
+    "https://raw.githubusercontent.com/FunctionError/PiratesTv/refs/heads/main/combined_playlist.m3u",
 ]
 
 TG_CHANNELS = ["kevinmejo", "AptvPlayer", "Player_Ku9", "tvzby", "iptvofficalgroup"]
@@ -73,9 +76,9 @@ PROVINCE_WEIGHT = {
 
 CITY_MAPPING = {
     "广州": "广东", "深圳": "广东", "珠海": "广东", "汕头": "广东", "佛山": "广东", "东莞": "广东", "湛江": "广东", "中山": "广东", "惠州": "广东", "江门": "广东", "潮州": "广东", "河源": "广东",
-    "杭州": "浙江", "宁波": "浙江", "温州": "浙江", "绍兴": "浙江", "金华": "浙江", "嘉兴": "浙江", "台州": "浙江", "湖州": "浙江", "丽水": "浙江", "义乌": "浙江",
+    "杭州": "浙江", "宁波": "浙江", "温州": "浙江", "绍兴": "浙江", "金华": "浙江", "嘉兴": "浙江", "台州": "浙江", "湖州": "浙江", "丽水": "浙江", "义乌": "浙江", "文成": "浙江",
     "青田": "浙江", "钱江": "浙江", "之江": "浙江", "余杭": "浙江", "云和": "浙江", "上虞": "浙江","遂昌": "浙江","象山": "浙江",
-    "南京": "江苏", "苏州": "江苏", "无锡": "江苏", "徐州": "江苏", "常州": "江苏", "南通": "江苏", "连云港": "江苏", "淮安": "江苏", "盐城": "江苏", "扬州": "江苏", "镇江": "江苏", "泰州": "江苏", "宿迁": "江苏", "新沂": "江苏", "沭阳": "江苏", "邳州": "江苏",
+    "南京": "江苏", "苏州": "江苏", "无锡": "江苏", "徐州": "江苏", "常州": "江苏", "南通": "江苏", "连云港": "江苏", "淮安": "江苏", "盐城": "江苏", "扬州": "江苏", "镇江": "江苏", "泰州": "江苏", "宿迁": "江苏", "新沂": "江苏", "沭阳": "江苏", "邳州": "江苏", "句容": "江苏",
     "成都": "四川", "绵阳": "四川", "广安": "四川", "南充": "四川", "达州": "四川", "宜宾": "四川", "泸州": "四川", "德阳": "四川", "乐山": "四川", "巴中": "四川",
     "金川": "四川", "汶川": "四川", "沐川": "四川","荣昌": "四川", "潼南": "四川",
     "长春": "吉林", "吉林市": "吉林", "四平": "吉林", "辽源": "吉林", "通化": "吉林", "白山": "吉林", "松原": "吉林", "白城": "吉林", "延边": "吉林", "梅河口": "吉林", "桦甸": "吉林",
@@ -179,12 +182,12 @@ def get_group_title(name):
     if is_adult_channel(name_simp): return "成人频道"
     if "娱乐新闻" in name_simp: return "综合文娱"
         
-    global_countries = ["CGTN", "国际", "INTERNATIONAL", "GLOBAL", "环球", "半岛", "华文", "唐NTD", "NTD", "阿富汗", "韩国", "新加坡", "芬兰", "西班牙", "俄罗斯", "法国", "德国", "意大利", "英国", "阿拉伯", "印尼", "印度", "澳洲", "澳大利亚", "加拿大", "越南", "缅甸", "NHK", "FUJI", "TOKYO", "TBS", "WOWOW", "JAPAN", "KBS", "SBS", "MBC", "TVN", "KOREA", "ASTRO", "STARHUB", "HBO", "NETFLIX", "BBC", "CNN", "FOX", "SKY", "ESPN"]
+    global_countries = ["CGTN", "国际", "INTERNATIONAL", "GLOBAL", "环球", "半岛", "华文", "唐NTD", "NTD", "阿富汗", "韩国", "新加坡", "芬兰", "西班牙", "俄罗斯", "法国", "德国", "意大利", "英国", "阿拉伯", "印尼", "印度", "荷兰", "卡塔尔", "罗马尼亚", "南非", "美国", "澳洲", "澳大利亚", "巴西", "老挝", "泰国", "伊朗", "智利", "爱尔兰", "哥伦比亚", "哥斯达黎加", "加拿大", "越南", "缅甸", "NHK", "FUJI", "TOKYO", "TBS", "WOWOW", "JAPAN", "KBS", "SBS", "MBC", "TVN", "KOREA", "ASTRO", "STARHUB", "HBO", "NETFLIX", "BBC", "CNN", "FOX", "SKY", "ESPN"]
     if any(x in name_simp for x in global_countries): return "国际频道"
         
     if "CCTV" in name_simp or "中央" in name_simp: return "央视频道"
     if "卫视" in name_simp: return "卫视频道"
-    if any(x in name_simp for x in ["香港", "台湾", "澳门", "HK", "TW", "MACAU", "TVB", "翡翠", "凤凰", "台视", "华视", "民视", "三立", "东森", "中天", "纬来", "非凡", "靖天", "大爱", "年代", "澳亚", "莲花", "中旺", "大力", "唯心", "美亚", "有线"]): return "港澳台频道"
+    if any(x in name_simp for x in ["香港", "台湾", "大力",  "澳门", "HK", "TW", "MACAU", "TVB", "翡翠", "凤凰", "台视", "华视", "民视", "三立", "东森", "中天", "纬来", "非凡", "靖天", "大爱", "年代", "澳亚", "莲花", "中旺", "大力", "唯心", "美亚", "明珠", "明珠台", "有线"]): return "港澳台频道"
 
     for prov in PROVINCE_WEIGHT.keys():
         if prov in name_simp: return f"{prov}频道"
@@ -192,10 +195,10 @@ def get_group_title(name):
         if city in name_simp: return f"{prov}频道"
     
     if any(x in name_simp for x in ["新闻", "NEWS", "资讯", "早班车", "看东方", "财经", "经济", "股市", "理财"]): return "新闻资讯"
-    if any(x in name_simp for x in ["电影", "影院", "影迷", "MOVIE", "CINEMA", "大片", "邵氏", "好莱坞", "剧", "电视剧", "剧场"]): return "影视频道"
-    if any(x in name_simp for x in ["体育", "SPORTS", "足球", "NBA", "CBA", "台球", "高尔夫", "奥运", "红牛", "电竞"]): return "体育频道"
+    if any(x in name_simp for x in ["电影", "天映",  "天映经典", "影院", "影迷", "MOVIE", "CINEMA", "大片", "邵氏", "龙华", "好莱坞", "剧", "电视剧", "剧场"]): return "影视频道"
+    if any(x in name_simp for x in ["体育", "SPORTS", "足球", "NBA", "CBA", "台球", "高尔夫", "奥运", "红牛", "垂钓", "电竞"]): return "体育频道"
     if any(x in name_simp for x in ["少儿", "动漫", "卡通", "动画", "CARTOON", "KIDS", "炫动", "宝宝"]): return "少儿频道"
-    if any(x in name_simp for x in ["教育", "CETV", "公开课", "课堂", "纪录", "纪实", "地理", "DISCOVERY", "HISTORY", "通史", "历史", "文化", "人文", "科教", "文物"]): return "科教纪录"
+    if any(x in name_simp for x in ["教育", "CETV", "公开课", "课堂", "纪录", "纪实", "地理", "DISCOVERY", "HISTORY", "通史", "历史", "文化", "人文", "兵器", "科教", "文物"]): return "科教纪录"
     if any(x in name_simp for x in ["戏曲", "梨园", "京剧", "越剧", "音乐", "MTV", "MUSIC", "演唱会", "生活", "健康", "养生", "美食", "重温经典", "农牧", "娱乐", "综艺", "休闲", "游戏"]): return "综合文娱"
 
     if len(name_simp) >= 2 and not any(char in name_simp for char in ["频", "道", "台", "测", "试"]):
