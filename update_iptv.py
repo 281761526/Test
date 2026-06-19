@@ -30,6 +30,16 @@ RAW_SOURCES_URLS = [
     "https://raw.githubusercontent.com/BigBigGrandG/IPTV-URL/release/Gather.m3u",
     "https://raw.githubusercontent.com/Kimentanm/aptv/master/m3u/iptv.m3u",
     "https://raw.githubusercontent.com/YanG-1989/m3u/main/Gather.m3u",
+    "http://210.245.166.84:1299/live/live.txt",
+    "http://bh666.filegear-sg.me/php/bhlive.php",
+    "http://ttkx.cc:55/lib/kx2024.txt",
+    "http://aktv.top/live.m3u",
+    "https://live.fanmingming.com/tv/m3u/ipv6.m3u",
+    "https://ghp.ci/raw.githubusercontent.com/suxuang/myIPTV/main/ipv6.m3u",
+    "https://live.fanmingming.com/tv/m3u/ipv6.m3u",
+    "https://cdn09022024.gitlink.org.cn/api/v1/repos/qianx/123/raw/1231?ref=master&access_token=9cdba3b67a6dadb223a75cde19bbca6125757e5e",
+    "https://raw.githubusercontent.com/281761526/HBD/refs/heads/main/7.m3u",
+    "https://gitee.com/main-stream/tv/raw/master/BOSS.json",
 ]
 
 # ==================== TG群组配置区域 ====================
