@@ -7,6 +7,8 @@ import subprocess
 import time
 import requests
 from bs4 import BeautifulSoup
+from telethon import TelegramClient
+from telethon.sessions import StringSession
 
 # ==================== 1. 基础抓取配置区域 ====================
 RAW_SOURCES_URLS = [
@@ -39,8 +41,13 @@ TG_CHANNELS = [
 ]
 
 OUTPUT_FILE = "live.m3u"
-MAX_CONCURRENT_TASKS = 40  # Actions 虚拟机并发检测数
-MAX_RETAIN_PER_CHANNEL = 5 # 每个频道保留的最优源数量（延迟最低的 3 个）
+MAX_CONCURRENT_TASKS = 40
+MAX_RETAIN_PER_CHANNEL = 5
+
+# 从 GitHub Secrets 读取环境变量
+TG_API_ID = os.environ.get("TG_API_ID")
+TG_API_HASH = os.environ.get("TG_API_HASH")
+TG_SESSION = os.environ.get("TG_SESSION")
 
 # ==================== 2. 精准排序权重配置区 ====================
 CATEGORY_WEIGHT = {
@@ -66,9 +73,7 @@ CITY_MAPPING = {
 
 # ==================== 3. 核心清洗与排序函数 ====================
 def get_group_title(name):
-    """智能分类：包含中文成人关键词的终极隔离过滤"""
     name_upper = name.upper()
-    
     adult_keywords = [
         "ADULT", "XXX", "18+", "AV", "HENTAI", "PORN", "SUTRA",
         "松视", "麻豆", "潘多", "潘朵", "彩虹", "惊艳", "香蕉", 
@@ -77,16 +82,13 @@ def get_group_title(name):
         "熟女", "巨乳", "无码", "激情", "🔞", "🈲", "情色", "色戒", "春药"
     ]
     if any(x in name_upper for x in adult_keywords): return "成人频道"
-        
     if "CCTV" in name_upper: return "央视频道"
     if "卫视" in name_upper: return "卫视频道"
     if any(x in name_upper for x in ["TVB", "翡翠", "J2", "无线", "香港", "台湾", "CHC", "凤凰", "纬来", "东森"]): return "港台频道"
     if any(x in name_upper for x in ["HBO", "NETFLIX", "DISCOVERY", "BBC", "CNN", "FOX", "NATIONAL"]): return "欧美经典"
-    
     return "地方频道"
 
 def custom_sort_key(item):
-    """多级排序核心引擎：大类 -> 省份/地级市 -> 频道号补零 -> 延迟"""
     name = item["name"]
     group = item["group"]
     cat_weight = CATEGORY_WEIGHT.get(group, 99)
@@ -103,20 +105,15 @@ def custom_sort_key(item):
                     prov_weight = PROVINCE_WEIGHT[prov]
                     break
                     
-    # 频道名称数字补零，如 CCTV-2 变为 CCTV-002
     sort_name = re.sub(r'\d+', lambda x: x.group().zfill(3), name)
     return (cat_weight, prov_weight, sort_name, item["delay"])
 
 def parse_content(text):
-    """终极防漏解析：处理 M3U, TXT, 空格连排, p3p 协议及 $ 尾巴"""
     results = []
-    # 核心修复 1：将 p3p 伪装协议强转为 http
     text = text.replace("p3p://", "http://")
-    
     lines = text.split('\n')
     current_name = None
     
-    # 阶段一：处理标准 M3U
     for line in lines:
         line = line.strip()
         if not line: continue
@@ -124,20 +121,21 @@ def parse_content(text):
             match = re.search(r'tvg-name="([^"]+)"', line)
             current_name = match.group(1) if match else line.split(',')[-1].strip()
         elif "://" in line and "," not in line: 
-            # 核心修复 2：切除链接尾部的 $ 干扰后缀（如 $官网）
             clean_url = line.split('$')[0].strip()
+            # 兼容处理特殊的 webview 链接，防止丢失
+            if "webview.js" in clean_url:
+                pass # 如果需要处理 webview 可以在此处定制，目前保持原样
+            
             if current_name:
                 results.append({"name": current_name, "url": clean_url})
             else:
                 results.append({"name": "未知频道", "url": clean_url})
             current_name = None 
             
-    # 阶段二：暴力正则提取 "频道名,协议://链接"，应对无换行 TXT 格式
     txt_matches = re.findall(r'([^\s,]+),([a-zA-Z0-9]+://[^\s]+)', text)
     existing_urls = {item['url'] for item in results}
     for name, url in txt_matches:
         clean_url = url.split('$')[0].strip()
-        # 核心修复 3：过滤掉 #genre# 分类标签的干扰
         if clean_url not in existing_urls and "#genre#" not in clean_url:
             results.append({"name": name.strip(), "url": clean_url})
             existing_urls.add(clean_url)
@@ -157,59 +155,65 @@ def fetch_web_sources():
             print(f"⚠️ 抓取 {url} 失败: {e}")
     return collected
 
-def fetch_telegram_sources():
-    print("💬 正在通过 Web 旁路深度解析 Telegram 频道及订阅源...")
+async def fetch_telegram_sources_async():
+    print("💬 正在通过 Telethon 官方协议深度解析 TG 频道及群组文件...")
     tg_collected = []
+    
+    if not TG_SESSION or not TG_API_ID or not TG_API_HASH:
+        print("⚠️ 未配置 TG_SESSION 环境变量，跳过 Telegram 深度抓取。")
+        return tg_collected
+
+    client = TelegramClient(StringSession(TG_SESSION), int(TG_API_ID), TG_API_HASH)
+    await client.connect()
+
     for channel in TG_CHANNELS:
         try:
-            url = f"https://t.me/s/{channel}"
-            res = requests.get(url, timeout=15)
-            if res.status_code != 200: continue
-            
-            # 第一层：解析群友手发文本
-            soup = BeautifulSoup(res.text, 'html.parser')
-            messages = soup.find_all('div', class_='tgme_widget_message_text')
-            for msg in messages:
-                text = msg.get_text(separator='\n')
-                tg_collected.extend(parse_content(text))
-            
-            # 第二、三层：深度展开配置文件和拾取散落链接
-            links = list(set(re.findall(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F]))+', res.text)))
-            for link in links:
-                link_lower = link.lower()
-                if "t.me/" in link_lower or "telegram.org" in link_lower: continue
+            print(f"⏳ 正在扫描 TG 来源: {channel}")
+            # 获取最新的 50 条消息（可以自行修改数量）
+            async for message in client.iter_messages(channel, limit=50):
+                # 1. 抓取聊天文本中的链接
+                if message.text:
+                    tg_collected.extend(parse_content(message.text))
                 
-                if (".m3u" in link_lower and ".m3u8" not in link_lower) or ".txt" in link_lower:
-                    try:
-                        print(f"   -> 🔍 发现TG订阅配置文件，正在深度展开提取: {link}")
-                        sub_res = requests.get(link, timeout=10)
-                        if sub_res.status_code == 200:
-                            extracted = parse_content(sub_res.text)
-                            print(f"      ✅ 成功从该订阅提取了 {len(extracted)} 个频道")
-                            tg_collected.extend(extracted)
-                    except: pass
-                elif ".m3u8" in link_lower or ".flv" in link_lower or ".mp4" in link_lower:
-                    if not any(item['url'] == link for item in tg_collected):
-                        tg_collected.append({"name": "TG散落源", "url": link})
+                # 2. 神级操作：直接拦截群文件并在内存中解包
+                if message.document and message.file.name:
+                    file_name = message.file.name.lower()
+                    if '.m3u' in file_name or '.txt' in file_name:
+                        print(f"   -> 📂 拦截到实体文件 [{message.file.name}]，正在进行内存暴力解析...")
+                        try:
+                            # 直接下载到内存 BytesIO 字节流，不写硬盘
+                            file_bytes = await client.download_media(message.document, bytes)
+                            if file_bytes:
+                                text_content = file_bytes.decode('utf-8', errors='ignore')
+                                extracted = parse_content(text_content)
+                                print(f"      ✅ 成功从文件中榨取了 {len(extracted)} 个频道！")
+                                tg_collected.extend(extracted)
+                        except Exception as e:
+                            print(f"      ❌ 解析文件失败: {e}")
+                            
         except Exception as e:
-            print(f"⚠️ 爬取 TG 频道 {channel} 失败: {e}")
+            print(f"⚠️ 扫描 {channel} 失败: {e} (确认账号是否被封禁或未加入该私密群)")
+            
+    await client.disconnect()
     return tg_collected
 
 # ==================== 5. 测速验证与主程序 ====================
 async def check_single_stream(semaphore, session, item):
-    """异步测速：加入 User-Agent 伪装，大幅提高 PHP 动态防盗链存活率"""
     async with semaphore:
         url = item["url"]
         name = item["name"]
-        start_time = time.time()
         
-        # 伪装成 Mac 上的 Chrome 浏览器
+        # 兼容处理特殊的 webview.js 嗅探链接，直接放行不测速
+        if "webview.js" in url:
+            print(f"✅ 放行: {name} (Webview代理源无需测速)")
+            return {"name": name, "url": url, "delay": 1, "res": "Webview"}
+
+        start_time = time.time()
         headers = {
             "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
         }
         
         try:
-            # 加入 headers 进行伪装探测，兼容 301/302 动态重定向
             async with session.head(url, headers=headers, timeout=5, allow_redirects=True) as response:
                 if response.status not in [200, 301, 302]: return None
         except:
@@ -217,7 +221,6 @@ async def check_single_stream(semaphore, session, item):
             
         delay = int((time.time() - start_time) * 1000)
         
-        # 给 ffprobe 也加上 user-agent 伪装
         cmd = [
             'ffprobe', '-v', 'quiet', '-print_format', 'json', 
             '-user_agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
@@ -233,20 +236,24 @@ async def check_single_stream(semaphore, session, item):
                     h = data["streams"][0].get("height", 0)
                     print(f"✅ 成功: {name} | {w}x{h} | {delay}ms")
                     return {"name": name, "url": url, "delay": delay, "res": f"{w}x{h}"}
-        except Exception as e:
-            # 修改了这里，防止被静默吞噬错误
-            # print(f"⚠️ ffprobe探测失败 {name}: {e}") # 取消注释可查看具体探测失败原因
+        except Exception:
             pass
         return None
 
 async def main():
-    total_raw = fetch_web_sources() + fetch_telegram_sources()
-    if not total_raw: return
+    # 并发执行网页抓取和 TG 抓取
+    web_raw = fetch_web_sources()
+    tg_raw = await fetch_telegram_sources_async()
+    total_raw = web_raw + tg_raw
+    
+    if not total_raw: 
+        print("❌ 未获取到任何直播源，程序退出。")
+        return
     
     semaphore = asyncio.Semaphore(MAX_CONCURRENT_TASKS)
     connector = aiohttp.TCPConnector(limit=MAX_CONCURRENT_TASKS, ssl=False)
     
-    print(f"\n🚀 开始并发检测 {len(total_raw)} 个原始直播源...")
+    print(f"\n🚀 开始并发检测 {len(total_raw)} 个合并后的直播源...")
     async with aiohttp.ClientSession(connector=connector) as session:
         tasks = [check_single_stream(semaphore, session, item) for item in total_raw]
         results = await asyncio.gather(*tasks)
@@ -261,15 +268,12 @@ async def main():
     for name, sources in channel_dict.items():
         sources.sort(key=lambda x: x["delay"]) 
         group_title = get_group_title(name)
-        # 仅保留每个频道速度最快的 N 个源
         for s in sources[:MAX_RETAIN_PER_CHANNEL]:
             s["group"] = group_title
             final_list.append(s)
             
-    # 执行终极多级排序
     final_list.sort(key=custom_sort_key)
         
-    # 生成最终 M3U 文件
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         f.write('#EXTM3U x-tvg-url="http://epg.51zmt.top:801/api/diyp/"\n')
         for item in final_list:
@@ -277,7 +281,7 @@ async def main():
             f.write(f'#EXTINF:-1 tvg-name="{item["name"]}" group-title="{item["group"]}",{display_name}\n')
             f.write(f'{item["url"]}\n')
             
-    print("\n🎉 自动化脚本抓取及精准排序任务圆满完成！")
+    print("\n🎉 自动化脚本抓取、内存文件解包及精准排序任务圆满完成！")
 
 if __name__ == "__main__":
     asyncio.run(main())
