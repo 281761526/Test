@@ -50,7 +50,7 @@ jobs:
             -compatibility_version 1.0 \
             -sectcreate __TEXT __info_plist /dev/null \
             -o NoAds.dylib \
-            NoAds.m
+            noads/NoAds.m
           # ad-hoc 签名：TrollStore/TrollFools 注入时假签即可
           codesign --force --sign - NoAds.dylib
           # 校验
