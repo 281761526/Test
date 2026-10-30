@@ -1,0 +1,83 @@
+name: Build NoAds.dylib
+
+# 免费云 Mac（macos-14 = Apple Silicon arm64，Xcode 自带 iOS SDK）
+# 触发：push 到 main / 手动 / 改动源码或工作流
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'noads/NoAds.m'
+      - 'noads/.github/workflows/build.yml'
+      - '.github/workflows/build.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: macos-14
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Show toolchain
+        run: |
+          xcodebuild -version
+          xcrun --sdk iphoneos --show-sdk-path
+          clang --version | head -1
+
+      - name: Compile NoAds.dylib (arm64, iOS 13+)
+        run: |
+          set -euxo pipefail
+          SDK=$(xcrun --sdk iphoneos --show-sdk-path)
+          xcrun -sdk iphoneos clang \
+            -arch arm64 \
+            -miphoneos-version-min=13.0 \
+            -dynamiclib \
+            -fobjc-arc \
+            -fmodules \
+            -O2 \
+            -Wall -Wno-unused-parameter \
+            -framework Foundation \
+            -framework UIKit \
+            -install_name "@executable_path/NoAds.dylib" \
+            -current_version 1.2 \
+            -compatibility_version 1.0 \
+            -o NoAds.dylib \
+            noads/NoAds.m
+          # ad-hoc 签名：TrollStore/TrollFools 注入时假签即可
+          codesign --force --sign - NoAds.dylib
+          # 校验
+          file NoAds.dylib
+          otool -l NoAds.dylib | grep -A2 'LC_ID_DYLIB'
+          otool -L NoAds.dylib
+
+      - name: Sanity check (constructor registered)
+        run: |
+          nm NoAds.dylib | grep "_NoAdsMain" || echo "WARN: _NoAdsMain not in nm output"
+          otool -l NoAds.dylib | grep -E "__init_offsets|__mod_init_func" || echo "WARN: no init section found"
+          echo "sanity info printed (informational, final gate is local verification)"
+
+      - name: Commit build product back to repo (built/NoAds.dylib)
+        # 产物直接提交回仓库，方便命令行/脚本直接 raw 拉取，无需网页下载 artifact
+        run: |
+          git config user.name "noads-builder"
+          git config user.email "actions@users.noreply.github.com"
+          mkdir -p built
+          cp NoAds.dylib built/NoAds.dylib
+          git add built/NoAds.dylib
+          git diff --cached --quiet || git commit -m "build: NoAds.dylib from $(git rev-parse --short HEAD)"
+          git push
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NoAds.dylib
+          path: NoAds.dylib
+          if-no-files-found: error
+          retention-days: 90
