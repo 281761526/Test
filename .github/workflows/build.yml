@@ -57,9 +57,10 @@ jobs:
           otool -l NoAds.dylib | grep -A2 'LC_ID_DYLIB'
           otool -L NoAds.dylib
 
-      - name: Sanity check (constructor symbol present)
+      - name: Sanity check (constructor registered)
         run: |
-          nm -gU NoAds.dylib | grep -q "NoAdsMain" && echo "constructor OK"
+          nm NoAds.dylib | grep -q "_NoAdsMain" && echo "constructor OK"
+          otool -l NoAds.dylib | grep -q "__init_offsets" && echo "init-offsets section OK"
 
       - name: Commit build product back to repo (built/NoAds.dylib)
         # 产物直接提交回仓库，方便命令行/脚本直接 raw 拉取，无需网页下载 artifact
