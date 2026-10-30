@@ -48,7 +48,6 @@ jobs:
             -install_name "@executable_path/NoAds.dylib" \
             -current_version 1.2 \
             -compatibility_version 1.0 \
-            -sectcreate __TEXT __info_plist /dev/null \
             -o NoAds.dylib \
             noads/NoAds.m
           # ad-hoc 签名：TrollStore/TrollFools 注入时假签即可
